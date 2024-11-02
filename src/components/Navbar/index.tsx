@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { useTheme } from "@/context/ThemeProvider";
 import { ToggleTheme } from "../theme-toggler";
+import { useLogoutMutation } from "@/hooks/mutations";
 
 const Logo = {
   light: "light logo",
@@ -11,6 +12,13 @@ const Logo = {
 const Navbar = () => {
   const { theme, systemPreference } = useTheme();
   const NavLogo = theme === "system" ? Logo[systemPreference] : Logo[theme];
+  const logout = useLogoutMutation();
+
+  const handleLogout = () => {
+    logout.mutate();
+    // TODO : use useNavigate from react-router-dom
+    window.location.reload();
+  };
 
   return (
     <nav className="fixed top-0 z-20 w-full border-b bg-background">
@@ -26,10 +34,15 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"></div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <ToggleTheme />
             </div>
+            <button
+              className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+              onClick={handleLogout}
+            >
+              LogOut
+            </button>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { Button } from "@/components/button";
 import { FormInput } from "@/components/form-input";
-import { useLoginMutation } from "@/hooks/mutations/useLoginMutation";
+import { useLoginMutation } from "@/hooks/mutations";
 import { LoginInput, loginSchema } from "@/schemas/auth";
 import { handleToast } from "@/utils/handleToast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,9 @@ const SignIn = () => {
   const onSubmit = (data: LoginInput) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
-        navigate("/home");
+        navigate("/");
+        // TODO : use useNavigate from react-router-dom
+        // window.location.reload();
       },
       onError: (error) => {
         handleToast({

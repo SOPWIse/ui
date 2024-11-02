@@ -2,7 +2,7 @@ import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { api } from "@/interceptor/api";
-import { queryKeys } from "../queries/queryKeys";
+import { queryKeys } from "../../queries/queryKeys";
 import { loginSchema } from "@/schemas/auth";
 
 export type LoginPayload = z.infer<typeof loginSchema>;
