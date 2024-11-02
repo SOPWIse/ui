@@ -6,6 +6,13 @@ import { BrowserRouter } from "react-router-dom";
 import { ScrollToTop } from "./utils/ScrollToTop.ts";
 import { ThemeProvider } from "./context/ThemeProvider.tsx";
 import App from "./App.tsx";
+import { ClerkProvider } from "@clerk/clerk-react";
+
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Add your Clerk publishable key to the .env.local file");
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,7 +29,9 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <ScrollToTop />
         <ThemeProvider>
-          <App />
+          <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+            <App />
+          </ClerkProvider>
         </ThemeProvider>
       </BrowserRouter>
     </QueryClientProvider>

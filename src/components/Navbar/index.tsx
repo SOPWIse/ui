@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
+import { SignedIn, useAuth, UserButton } from "@clerk/clerk-react";
 
 import { useTheme } from "@/context/ThemeProvider";
 import { ToggleTheme } from "../theme-toggler";
 import { useLogoutMutation } from "@/hooks/mutations";
+import { useUser } from "@clerk/clerk-react";
 
 const Logo = {
   light: "light logo",
@@ -14,8 +16,13 @@ const Navbar = () => {
   const NavLogo = theme === "system" ? Logo[systemPreference] : Logo[theme];
   const navigate = useNavigate();
   const logout = useLogoutMutation();
+  const ssoUserData = useUser();
+  const ssoAuth = useAuth();
 
   const handleLogout = () => {
+    if (ssoUserData.isSignedIn) {
+      ssoAuth.signOut();
+    }
     logout.mutate();
     navigate("/");
   };
@@ -37,12 +44,19 @@ const Navbar = () => {
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <ToggleTheme />
             </div>
-            <button
-              className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
-              onClick={handleLogout}
-            >
-              LogOut
-            </button>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </div>
+            {!ssoUserData.isSignedIn && (
+              <button
+                className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+                onClick={handleLogout}
+              >
+                LogOut
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
+import { SignedOut, SignInButton } from "@clerk/clerk-react";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -90,6 +91,18 @@ const SignIn = () => {
           >
             Sign in
           </Button>
+          <SignedOut>
+            <SignInButton
+              children={
+                <Button className="w-full" variant={"outline"}>
+                  SSO
+                </Button>
+              }
+            />
+          </SignedOut>
+          {/* <SignedIn>
+            <UserButton />
+          </SignedIn> */}
           <Link
             to="/forgot-password"
             className="text-sm font-semibold text-foreground hover:underline"
