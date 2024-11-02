@@ -4,7 +4,7 @@
  */
 import { z } from "zod";
 
-export const rolesArray = ["ADMIN", "AUTHOR", "USER"] as const;
+export const rolesArray = ["ADMIN", "AUTHOR", "ASSISTANT"] as const;
 
 export const loginSchema = z.object({
   email: z.string().email("Invalid email, please try again!"),

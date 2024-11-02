@@ -27,8 +27,6 @@ const SignIn = () => {
     loginMutation.mutate(data, {
       onSuccess: () => {
         navigate("/");
-        // TODO : use useNavigate from react-router-dom
-        // window.location.reload();
       },
       onError: (error) => {
         handleToast({
