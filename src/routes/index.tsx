@@ -4,12 +4,14 @@
  *
  */
 
-import Layout from "@/components/Layout";
-import { Loader } from "@/components/Loader";
+import Layout from "@/components/layout";
+import { Loader } from "@/components/loader";
+import AuthLayout from "@/pages/auth/components/auth-layout";
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 const Home = lazy(() => import("@/pages/home"));
+const SignIn = lazy(() => import("@/pages/auth/sign-in"));
 
 const masterRoutes = [
   {
@@ -33,6 +35,26 @@ export function PrivateRoutes() {
           />
         ))}
         <Route path="*" element={<Navigate to={"/home"} replace />} />
+      </Route>
+    </Routes>
+  );
+}
+
+export function PublicRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<AuthLayout />}>
+        <Route index element={<SignIn />} />
+        {/* TODO : DICUSS IF FORGOT PASSWORD IS NEEDED */}
+        {/* <Route
+          path="/forgot-password"
+          element={
+            <Suspense fallback={<Loader />}>
+              <ForgotPassword />
+            </Suspense>
+          }
+        /> */}
+        <Route path="*" element={<Navigate to={"/"} replace />} />
       </Route>
     </Routes>
   );

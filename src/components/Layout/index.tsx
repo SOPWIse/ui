@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "../ui/scroll-area";
 import { Outlet } from "react-router-dom";
-import Navbar from "../Navbar";
+import Navbar from "../navbar";
 
 const Layout = () => {
   return (

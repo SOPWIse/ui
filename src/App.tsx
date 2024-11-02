@@ -1,16 +1,16 @@
 import "./App.css";
-import { Toaster } from "./components/Toaster";
+import { Toaster } from "./components/toaster";
 import { useTheme } from "./context/ThemeProvider";
-import { PrivateRoutes } from "./routes";
+import { PrivateRoutes, PublicRoutes } from "./routes";
 
 function App() {
   const { theme } = useTheme();
   // TODO:CHANGE THIS LATER AFTER API IMPLEMENTATION
-  const isLoggedIn = true;
+  const isLoggedIn = !!localStorage.getItem("access_token");
 
   return (
     <>
-      {isLoggedIn ? <PrivateRoutes /> : null}
+      {isLoggedIn ? <PrivateRoutes /> : <PublicRoutes />}
       <Toaster theme={theme} />
     </>
   );

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { useTheme } from "@/context/ThemeProvider";
-import { ToggleTheme } from "../ThemeToggler";
+import { ToggleTheme } from "../theme-toggler";
 
 const Logo = {
   light: "light logo",
