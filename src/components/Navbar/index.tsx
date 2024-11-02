@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useTheme } from "@/context/ThemeProvider";
 import { ToggleTheme } from "../theme-toggler";
@@ -12,12 +12,12 @@ const Logo = {
 const Navbar = () => {
   const { theme, systemPreference } = useTheme();
   const NavLogo = theme === "system" ? Logo[systemPreference] : Logo[theme];
+  const navigate = useNavigate();
   const logout = useLogoutMutation();
 
   const handleLogout = () => {
     logout.mutate();
-    // TODO : use useNavigate from react-router-dom
-    window.location.reload();
+    navigate("/");
   };
 
   return (

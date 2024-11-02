@@ -4,11 +4,12 @@ import { Toaster } from "./components/toaster";
 import { useTheme } from "./context/ThemeProvider";
 import { PrivateRoutes, PublicRoutes } from "./routes";
 import { Loader } from "./components/loader";
+import { useUserQuery } from "./hooks/queries/user";
 
 function App() {
   const { theme } = useTheme();
-  // TODO:CHANGE THIS LATER AFTER API IMPLEMENTATION
-  const isLoggedIn = !!localStorage.getItem("access_token");
+  const { data: userData } = useUserQuery();
+  const isLoggedIn = !!userData;
 
   return (
     <Suspense fallback={<Loader />}>

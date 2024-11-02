@@ -16,10 +16,14 @@ export const api = axios.create(defaultOptions);
 
 // Set the auth token and role for every request
 api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
-const MAX_RETRIES = 3;
+const MAX_RETRIES = 1;
 
 // Add a response interceptor to handle 401 errors
 api.interceptors.response.use(

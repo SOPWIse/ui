@@ -26,5 +26,6 @@ export const useUserQuery = () => {
     queryKey: queryKeys.user.currentUser,
     queryFn: getCurrentUser,
     staleTime: Infinity,
+    retry: false,
   });
 };
