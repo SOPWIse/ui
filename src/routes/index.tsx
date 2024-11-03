@@ -12,6 +12,7 @@ import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 const Home = lazy(() => import("@/pages/home"));
+const SignUp = lazy(() => import("@/pages/auth/sign-up"));
 
 const masterRoutes = [
   {
@@ -45,6 +46,7 @@ export function PublicRoutes() {
     <Routes>
       <Route path="/" element={<AuthLayout />}>
         <Route index element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
         {/* TODO : DICUSS IF FORGOT PASSWORD IS NEEDED */}
         {/* <Route
           path="/forgot-password"
