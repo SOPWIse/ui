@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { SignedOut, SignInButton } from "@clerk/clerk-react";
+import { MovingBorderButton } from "@/components/moving-border";
+import { KeyRound } from "lucide-react";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -44,8 +46,8 @@ const SignIn = () => {
       <form
         className="flex flex-col w-2/4 max-w-screen-sm space-y-10"
         onSubmit={handleSubmit(onSubmit)}
+        noValidate
       >
-        {/* <img className="w-auto h-16" src={Logo} alt="Company Logo" /> */}
         <div className="space-y-2">
           <h1 className="text-3xl font-semibold">Welcome Back</h1>
           <p className="mt-2 text-mauve11">
@@ -94,15 +96,19 @@ const SignIn = () => {
           <SignedOut>
             <SignInButton
               children={
-                <Button className="w-full" variant={"outline"}>
+                <MovingBorderButton
+                  borderRadius="0.5rem"
+                  className="w-full h-10 text-black bg-white dark:bg-slate-900 dark:text-white border-neutral-200 dark:border-slate-800"
+                  containerClassName="w-full h-11"
+                  type="button"
+                  onClick={(e: MouseEvent) => e.preventDefault()}
+                >
+                  <KeyRound className="w-4 h-auto m-2" />
                   SSO
-                </Button>
+                </MovingBorderButton>
               }
             />
           </SignedOut>
-          {/* <SignedIn>
-            <UserButton />
-          </SignedIn> */}
           <Link
             to="/forgot-password"
             className="text-sm font-semibold text-foreground hover:underline"
