@@ -16,6 +16,8 @@ export const registerSchema = z.object({
   password: z.string().min(6),
   name: z.string().min(3),
   role: z.enum(rolesArray),
+  provider: z.string().default("sopwise").optional(),
+  metaData: z.any().optional(),
 });
 
 /**
