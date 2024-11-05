@@ -1,9 +1,8 @@
 import { z } from "zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { api } from "@/interceptor/api";
-import { queryKeys } from "../../queries/queryKeys";
-import { loginSchema, registerSchema } from "@/schemas/auth";
+import { registerSchema } from "@/schemas/auth";
 
 export type RegisterPayload = z.infer<typeof registerSchema>;
 export type LoginResponse = string;
@@ -14,8 +13,7 @@ async function registerUser(data: RegisterPayload) {
     const res = await api.post("/auth/register", data);
     return res?.data;
   } catch (e) {
-    console.log(e);
-    return null;
+    throw new Error(e as string);
   }
 }
 

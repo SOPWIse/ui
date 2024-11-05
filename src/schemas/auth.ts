@@ -8,12 +8,12 @@ export const rolesArray = ["ADMIN", "AUTHOR", "ASSISTANT"] as const;
 
 export const loginSchema = z.object({
   email: z.string().email("Invalid email, please try again!"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(4, "Password must be at least 4 characters"),
 });
 
 export const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z.string().email("Invalid email, please try again!"),
+  password: z.string().min(4, "Password must be at least 4 characters"),
   name: z.string().min(3),
   role: z.enum(rolesArray).default("ASSISTANT"),
   provider: z.string().default("sopwise").optional(),

@@ -29,7 +29,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 z-20 w-full border-b bg-background">
+    <nav className="fixed top-0 z-20 w-full border-b bg-sidebar">
       <div className="max-w-full px-2 mx-auto sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-14">
           <div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
