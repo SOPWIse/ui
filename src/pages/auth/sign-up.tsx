@@ -1,18 +1,18 @@
 import { Button } from "@/components/button";
 import { FormInput } from "@/components/form-input";
-import { useLoginMutation } from "@/hooks/mutations";
-import { LoginInput, loginSchema } from "@/schemas/auth";
+import { MovingBorderButton } from "@/components/moving-border";
+import { useRegisterMutation } from "@/hooks/mutations/auth/useRegisterMutation";
+import { RegisterInput, registerSchema } from "@/schemas/auth";
 import { handleToast } from "@/utils/handleToast";
+import { SignedOut, SignInButton } from "@clerk/clerk-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyRound } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
-import { SignedOut, SignInButton } from "@clerk/clerk-react";
-import { MovingBorderButton } from "@/components/moving-border";
-import { KeyRound } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const SignIn = () => {
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -20,22 +20,29 @@ const SignIn = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
   });
 
-  const loginMutation = useLoginMutation();
+  const registerMutation = useRegisterMutation();
 
-  const onSubmit = (data: LoginInput) => {
-    loginMutation.mutate(data, {
+  const onSubmit = (data: RegisterInput) => {
+    registerMutation.mutate(data, {
       onSuccess: () => {
-        navigate("/");
+        handleToast({
+          message: "Registeration successful",
+          type: "success",
+          description: "Please proceed for login with same credentials",
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       },
       onError: (error) => {
         handleToast({
-          type: "error",
           error,
-          message: "Error Logging In",
+          message: "Error while registeration",
+          type: "error",
         });
       },
     });
@@ -46,8 +53,8 @@ const SignIn = () => {
       <form
         className="flex flex-col w-2/4 max-w-screen-sm space-y-10"
         onSubmit={handleSubmit(onSubmit)}
-        noValidate
       >
+        {/* <img className="w-auto h-16" src={Logo} alt="Company Logo" /> */}
         <div className="space-y-2">
           <h1 className="text-3xl font-semibold">Welcome Back</h1>
           <p className="mt-2 text-mauve11">
@@ -58,10 +65,17 @@ const SignIn = () => {
         <div className="space-y-0">
           <FormInput
             required
+            error={errors.name?.message}
+            {...register("name")}
+            label="Name"
+          />
+          <FormInput
+            required
             error={errors.email?.message}
             {...register("email")}
             label="E-Mail"
           />
+
           <div className="relative w-full">
             <FormInput
               required
@@ -84,22 +98,14 @@ const SignIn = () => {
               )}
             </div>
           </div>
-          <div className="flex justify-end py-2">
-            <Link
-              to="/forgot-password"
-              className="text-sm font-semibold text-foreground hover:underline"
-            >
-              Forgot Password?
-            </Link>
-          </div>
         </div>
-        <div className="flex flex-col items-center space-y-2">
+        <div className="space-y-4">
           <Button
             className="w-full"
-            isLoading={loginMutation.isPending}
+            isLoading={registerMutation.isPending}
             type="submit"
           >
-            Sign in
+            Sign Up
           </Button>
           <div className="flex space-x-2 w-full self-center">
             <SignedOut>
@@ -121,9 +127,9 @@ const SignIn = () => {
             <Button
               className="w-full"
               variant={"outline"}
-              onClick={() => navigate("/sign-up")}
+              onClick={() => navigate("/")}
             >
-              Sign Up
+              Sign In
             </Button>
           </div>
         </div>
@@ -132,4 +138,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

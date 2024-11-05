@@ -25,7 +25,7 @@ export const FormInput = forwardRef<
           <Label
             className={cn(
               "leading-9",
-              props.required && "after:text-red-400 after:content-['*']"
+              props.required && "after:text-red-400 after:content-['*']",
             )}
             htmlFor={props?.id}
           >
@@ -48,7 +48,7 @@ export const FormInput = forwardRef<
           <div
             className={cn(
               "inline-flex appearance-none items-center justify-center rounded-[4px] rounded-r-none  border border-r-0 border-border  bg-muted px-[15px] text-[15px] leading-none",
-              error && "ring-1 ring-red-400"
+              error && "ring-1 ring-red-400",
             )}
           >
             {prefix}
@@ -59,7 +59,7 @@ export const FormInput = forwardRef<
           className={cn(
             prefix && "rounded-l-none rounded-r-[4px]",
             error && "ring-1 ring-red-400",
-            className
+            className,
           )}
           {...props}
         />

@@ -15,7 +15,7 @@ export const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
   name: z.string().min(3),
-  role: z.enum(rolesArray),
+  role: z.enum(rolesArray).default("ASSISTANT"),
   provider: z.string().default("sopwise").optional(),
   metaData: z.any().optional(),
 });
