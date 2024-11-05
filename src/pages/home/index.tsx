@@ -1,8 +1,9 @@
-import { useUserQuery } from "@/hooks/queries/user";
+import { useEffect } from "react";
 
 const Home = () => {
-  useUserQuery();
-  return <h1>Hello World</h1>;
+  useEffect(() => {}, []);
+
+  return <section className="mt-24"></section>;
 };
 
 export default Home;

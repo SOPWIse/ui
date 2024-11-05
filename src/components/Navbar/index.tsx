@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import { SignedIn, useAuth, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignOutButton, useAuth } from "@clerk/clerk-react";
 
 import { useTheme } from "@/context/ThemeProvider";
 import { ToggleTheme } from "../theme-toggler";
 import { useLogoutMutation } from "@/hooks/mutations";
 import { useUser } from "@clerk/clerk-react";
+import { Button } from "../button";
 
 const Logo = {
   light: "light logo",
@@ -46,16 +47,23 @@ const Navbar = () => {
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <SignedIn>
-                <UserButton />
+                <SignOutButton
+                  children={
+                    <Button variant={"link"} onClick={handleLogout}>
+                      <p>Log Out</p>
+                    </Button>
+                  }
+                ></SignOutButton>
               </SignedIn>
             </div>
             {!ssoUserData.isSignedIn && (
-              <button
+              <Button
+                variant={"link"}
                 className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
                 onClick={handleLogout}
               >
                 LogOut
-              </button>
+              </Button>
             )}
           </div>
         </div>

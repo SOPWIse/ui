@@ -4,17 +4,14 @@ import { Toaster } from "./components/toaster";
 import { useTheme } from "./context/ThemeProvider";
 import { PrivateRoutes, PublicRoutes } from "./routes";
 import { Loader } from "./components/loader";
-import { useUserQuery } from "./hooks/queries/user";
-import { useUser } from "@clerk/clerk-react";
+import useAuthStatus from "./hooks/queries/user/useAuthStatus";
 
 function App() {
   const { theme } = useTheme();
-  const { data: userData } = useUserQuery();
-  const { isSignedIn, user, isLoaded } = useUser();
 
-  if (!isLoaded) return <Loader />;
+  const { isLoggedIn, isLoading } = useAuthStatus();
 
-  const isLoggedIn = !!userData || isSignedIn;
+  if (isLoading) return <Loader />;
 
   return (
     <Suspense fallback={<Loader />}>
