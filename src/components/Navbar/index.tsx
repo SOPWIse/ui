@@ -8,8 +8,8 @@ import { useUser } from "@clerk/clerk-react";
 import { Button } from "../button";
 
 const Logo = {
-  light: "light logo",
-  dark: "dark logo",
+  light: "",
+  dark: "",
 } as const;
 
 const Navbar = () => {
