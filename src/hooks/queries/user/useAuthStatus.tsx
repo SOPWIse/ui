@@ -43,7 +43,7 @@ const useAuthStatus = (): UseAuthReturn => {
             });
             console.log("ERROR LOGGING IN ==>", error);
           },
-        }
+        },
       );
     }
   }, [ssoUser?.id]);

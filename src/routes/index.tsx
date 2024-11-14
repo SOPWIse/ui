@@ -4,14 +4,17 @@
  *
  */
 
+import { AppSidebar } from "@/components/app-sidebar";
 import Layout from "@/components/layout";
 import { Loader } from "@/components/loader";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import AuthLayout from "@/pages/auth/components/auth-layout";
 import SignIn from "@/pages/auth/sign-in";
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 const Home = lazy(() => import("@/pages/home"));
+const User = lazy(() => import("@/pages/user-management/user-dashboard"));
 const SignUp = lazy(() => import("@/pages/auth/sign-up"));
 
 const masterRoutes = [
@@ -20,24 +23,34 @@ const masterRoutes = [
     element: <Home />,
     permission: "*",
   },
+  {
+    path: "/user/*",
+    element: <User />,
+    permission: "*",
+  },
 ];
 
 export function PrivateRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Navigate to={"/home"} replace />}></Route>
-        /** DEFINE THE ROUTES BELOW */
-        {masterRoutes.map((route, index) => (
-          <Route
-            path={route.path}
-            key={index}
-            element={<Suspense fallback={<Loader />}>{route.element}</Suspense>}
-          />
-        ))}
-        <Route path="*" element={<Navigate to={"/home"} replace />} />
-      </Route>
-    </Routes>
+    <SidebarProvider className="relative z-20">
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate to={"/home"} replace />}></Route>
+          /** DEFINE THE ROUTES BELOW */
+          {masterRoutes.map((route, index) => (
+            <Route
+              path={route.path}
+              key={index}
+              element={
+                <Suspense fallback={<Loader />}>{route.element}</Suspense>
+              }
+            />
+          ))}
+          <Route path="*" element={<Navigate to={"/home"} replace />} />
+        </Route>
+      </Routes>
+      <AppSidebar />
+    </SidebarProvider>
   );
 }
 
