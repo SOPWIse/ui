@@ -41,11 +41,12 @@ api.interceptors.response.use(
           retryCount++;
           if (retryCount >= MAX_RETRIES) {
             // If maximum retries reached, delete access token
+            localStorage.removeItem("access_token");
             return Promise.reject(retryError);
           }
         }
       }
     }
     return Promise.reject(error);
-  },
+  }
 );
