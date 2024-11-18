@@ -1,67 +1,77 @@
-import { useState } from "react";
-import { Button } from "@/components/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { useSidebar } from "@/components/ui/sidebar";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import useGetAllUsers from "@/hooks/queries/user/useGetAllUsers";
-import { ArrowUpDown } from "lucide-react";
-import { Loader } from "@/components/loader";
+import DataTable from "@/components/data-table/data-table";
+import DataTableRowActions from "@/components/data-table/data-table-row-actions";
+import { ColumnDef } from "@tanstack/react-table";
+import useDataTable from "@/hooks/data-table/use-data-table";
+import { Pencil, Trash } from "lucide-react";
+import { UserData } from "@/schemas/all-users";
+
+
+export const getUserTableColumns = ({onDelete, onEdit}:
+  {onEdit: (data: UserData) => void,
+  onDelete: (data: UserData) => void}
+): ColumnDef<UserData>[] => [
+  {
+    accessorFn: (data) => data.name,
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorFn: (data) => data.email,
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorFn: (data) => data.provider,
+    accessorKey: "provider",
+    header: "Provider",
+  },
+  {
+    accessorFn: (data) => data.role,
+    accessorKey: "role",
+    header: "Role",
+  },
+  {
+    id: "actions",
+    header: "",
+    cell: ({ row }) => (
+      <DataTableRowActions
+        row={row}
+        actions={[
+          {
+            label: "Edit",
+            icon: <Pencil className="h-4 w-4" />,
+            onClick: () => onEdit(row.original),
+            withSeparator: true,
+          },
+          {
+            label: "Delete",
+            icon: <Trash className="h-4 w-4 text-red-500" />,
+            onClick: () => onDelete(row.original),
+          },
+        ]}
+      />
+    ),
+  },
+];
 
 const UserManagement = () => {
   const { open } = useSidebar();
+  const { state, setSorting, setPagination } = useDataTable();
 
-  const [page, setPage] = useState(1);
+  const { page, pageSize, searchBy, sortBy, sortOrder } = state;
 
-  const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | undefined>(
-    undefined,
-  );
-
-  const { data, isLoading, isError } = useGetAllUsers({
+  const { data, isLoading } = useGetAllUsers({
     page,
-    search,
+    search: searchBy,
+    limit: pageSize,
     sortBy,
     sortOrder,
   });
 
-  const handleSort = (field: string) => {
-    if (sortBy === field) {
-      setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
-    } else {
-      setSortBy(field);
-      setSortOrder("asc");
-    }
-  };
-
-  const totalItems = data?.data?.meta?.items?.totalItems ?? 0;
-  const pageSize = data?.data?.meta?.page?.size ?? 8;
-  const totalPages = Math.ceil(totalItems / pageSize);
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
-
-  if (isLoading) {
-    return <Loader />;
-  }
+  const totalPage = data?.data?.meta?.page?.total ?? 0;
 
   return (
     <section
@@ -73,89 +83,16 @@ const UserManagement = () => {
         User Management
       </h1>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort("name")}>
-                Name
-                <ArrowUpDown size={"15px"} />
-              </Button>
-            </TableHead>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort("email")}>
-                Email
-                <ArrowUpDown size={"15px"} />
-              </Button>
-            </TableHead>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort("role")}>
-                Role
-                <ArrowUpDown size={"15px"} />
-              </Button>
-            </TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data?.data?.data.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={4}>No users found.</TableCell>
-            </TableRow>
-          ) : (
-            data?.data?.data.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>{""}</TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-
-      <Pagination className={"justify-end mt-10 pe-10"}>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              href="#"
-              onClick={() => handlePageChange(page - 1)}
-              className={
-                page === 1 ? "pointer-events-none opacity-50" : undefined
-              }
-            />
-          </PaginationItem>
-
-          {[...Array(totalPages)].map((_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink
-                href="#"
-                isActive={index + 1 === page}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationNext
-              href="#"
-              onClick={() => handlePageChange(page + 1)}
-              className={
-                page === totalPages
-                  ? "pointer-events-none opacity-50"
-                  : undefined
-              }
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <DataTable
+        state={state}
+        totalPage={totalPage}
+        isLoading={isLoading}
+        columns={getUserTableColumns({onEdit: console.log, onDelete: console.log})}
+        data={data?.data?.data ?? []}
+        onSortingChange={setSorting}
+        pageSize={pageSize}
+        onPageChange={setPagination}
+      />
     </section>
   );
 };

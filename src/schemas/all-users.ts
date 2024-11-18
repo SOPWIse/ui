@@ -41,3 +41,4 @@ export const allUserSchema = z.object({
 });
 
 export type AllUserResponse = z.infer<typeof allUserSchema>;
+export type UserData = z.infer<typeof userSchema>
