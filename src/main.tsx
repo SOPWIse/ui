@@ -2,11 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Outlet, useNavigate } from "react-router-dom";
 import { ScrollToTop } from "./utils/ScrollToTop.ts";
 import { ThemeProvider } from "./context/ThemeProvider.tsx";
 import App from "./App.tsx";
-import { ClerkProvider } from "@clerk/clerk-react";
+import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-react";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -23,17 +23,33 @@ const queryClient = new QueryClient({
   },
 });
 
+export const RootLayout = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
+  return (
+    <ClerkProvider
+      routerPush={(to) => navigate(to)}
+      routerReplace={(to) => navigate(to, { replace: true })}
+      publishableKey={PUBLISHABLE_KEY}
+    >
+      <ClerkLoaded>
+        {children}
+        <Outlet />
+      </ClerkLoaded>
+    </ClerkProvider>
+  );
+};
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ScrollToTop />
         <ThemeProvider>
-          <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+          <RootLayout>
             <App />
-          </ClerkProvider>
+          </RootLayout>
         </ThemeProvider>
       </BrowserRouter>
     </QueryClientProvider>
-  </StrictMode>,
+  </StrictMode>
 );

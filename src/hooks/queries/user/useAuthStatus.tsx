@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { useUserQuery } from "./useGetCurrentUser";
@@ -17,6 +17,8 @@ const useAuthStatus = (): UseAuthReturn => {
   const ssoLogin = useSSOLoginMutation();
   const logout = useLogoutMutation();
   const navigate = useNavigate();
+  // DO NOT REMOVE THIS useState
+  const [initialPath] = useState(location.pathname);
 
   useEffect(() => {
     if (ssoUser) {
@@ -32,7 +34,7 @@ const useAuthStatus = (): UseAuthReturn => {
         },
         {
           onSuccess: () => {
-            navigate("/");
+            navigate(initialPath);
           },
           onError: (error) => {
             logout.mutate();
@@ -43,7 +45,7 @@ const useAuthStatus = (): UseAuthReturn => {
             });
             console.log("ERROR LOGGING IN ==>", error);
           },
-        },
+        }
       );
     }
   }, [ssoUser?.id]);

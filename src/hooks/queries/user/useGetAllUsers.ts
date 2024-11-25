@@ -14,7 +14,7 @@ type GetAllUsersParams = {
 };
 
 const getAllUsers = async (
-  params?: GetAllUsersParams,
+  params?: GetAllUsersParams
 ): Promise<AllUserResponse> => {
   const response = await api.get("/user/all", {
     params: {
@@ -35,7 +35,7 @@ const useGetAllUsers = (params?: GetAllUsersParams) => {
   return useQuery({
     queryKey: [queryKeys.user.allUsers, params],
     queryFn: () => getAllUsers(params),
-    enabled: user.data.role === "ADMIN",
+    enabled: user?.data?.role === "ADMIN",
     staleTime: 1000 * 60 * 5,
   });
 };
