@@ -7,12 +7,15 @@ import { ColumnDef } from "@tanstack/react-table";
 import useDataTable from "@/hooks/data-table/use-data-table";
 import { Pencil, Trash } from "lucide-react";
 import { UserData } from "@/schemas/all-users";
+import { cn } from "@/lib/utils";
 
-
-export const getUserTableColumns = ({onDelete, onEdit}:
-  {onEdit: (data: UserData) => void,
-  onDelete: (data: UserData) => void}
-): ColumnDef<UserData>[] => [
+export const getUserTableColumns = ({
+  onDelete,
+  onEdit,
+}: {
+  onEdit: (data: UserData) => void;
+  onDelete: (data: UserData) => void;
+}): ColumnDef<UserData>[] => [
   {
     accessorFn: (data) => data.name,
     accessorKey: "name",
@@ -42,13 +45,13 @@ export const getUserTableColumns = ({onDelete, onEdit}:
         actions={[
           {
             label: "Edit",
-            icon: <Pencil className="h-4 w-4" />,
+            icon: <Pencil className="w-4 h-4" />,
             onClick: () => onEdit(row.original),
             withSeparator: true,
           },
           {
             label: "Delete",
-            icon: <Trash className="h-4 w-4 text-red-500" />,
+            icon: <Trash className="w-4 h-4 text-red-500" />,
             onClick: () => onDelete(row.original),
           },
         ]}
@@ -75,11 +78,12 @@ const UserManagement = () => {
 
   return (
     <section
-      className={`max-w-screen-2xl mt-[100px] ms-40 transition-all duration-300 ease-in-out ${
+      className={cn(
+        `max-w-screen-lg mt-[100px] ms-40 transition-all duration-300 ease-in-out`,
         open ? "ps-[200px]" : "ps-[20px]"
-      }`}
+      )}
     >
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-4xl mb-10">
+      <h1 className="mb-10 text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-4xl">
         User Management
       </h1>
 
@@ -87,7 +91,10 @@ const UserManagement = () => {
         state={state}
         totalPage={totalPage}
         isLoading={isLoading}
-        columns={getUserTableColumns({onEdit: console.log, onDelete: console.log})}
+        columns={getUserTableColumns({
+          onEdit: console.log,
+          onDelete: console.log,
+        })}
         data={data?.data?.data ?? []}
         onSortingChange={setSorting}
         pageSize={pageSize}

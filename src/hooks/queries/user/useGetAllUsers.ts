@@ -3,6 +3,7 @@ import { queryKeys } from "../queryKeys";
 import { api } from "@/interceptor/api";
 import { useUserQuery } from "./useGetCurrentUser";
 import { AllUserResponse, allUserSchema } from "@/schemas/all-users";
+import qs from "qs";
 
 type GetAllUsersParams = {
   page?: number;
@@ -21,9 +22,12 @@ const getAllUsers = async (
       page: params?.page ?? 1,
       limit: params?.limit ?? 8,
       search: params?.search,
-      searchFields: params?.searchFields?.join(","),
+      searchFields: params?.searchFields,
       sortBy: params?.sortBy,
       sortOrder: params?.sortOrder,
+    },
+    paramsSerializer: {
+      serialize: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
     },
   });
   return allUserSchema.parse(response?.data);

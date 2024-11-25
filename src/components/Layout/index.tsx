@@ -5,7 +5,11 @@ import Navbar from "../navbar";
 
 const Layout = () => {
   return (
-    <ScrollArea className={cn("min-h-[100vh] min-w-[100vw] overflow-y-scroll")}>
+    <ScrollArea
+      className={cn(
+        "min-h-[100vh] min-w-[100vw] overflow-y-scroll overflow-x-hidden"
+      )}
+    >
       <Navbar />
       <div>
         <Outlet />
