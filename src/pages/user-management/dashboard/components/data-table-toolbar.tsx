@@ -1,7 +1,6 @@
 import { Table } from "@tanstack/react-table";
 import { debounce } from "lodash";
 
-// import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Button, Input } from "@/components/ui";
 import { X } from "lucide-react";
@@ -34,6 +33,20 @@ export function DataTableToolbar<TData>({
         {/*
          * GET STATE FROM THE TABLE ITSELF AND USE IT TO DETERMINE IF THE COLUMN IS SORTABLE
          */}
+
+        {/* <AsyncDataTableFacetedFilter
+          column={table.getColumn("x")}
+          title="Filter"
+          options={[
+            { label: "All", value: "" },
+            { label: "Active", value: "active" },
+            { label: "Inactive", value: "inactive" },
+          ]}
+          onSearch={() => {}}
+          chipLimit={3}
+          sorting={"asc"}
+          limit={10}
+        /> */}
         {table.getColumn("role") && (
           <DataTableFacetedFilter
             column={table.getColumn("role")}

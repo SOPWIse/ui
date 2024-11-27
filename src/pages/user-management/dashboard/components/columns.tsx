@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui";
 import { ComponentProps } from "react";
 import { Check } from "lucide-react";
 import { BsGoogle, BsMicrosoft } from "react-icons/bs";
+import { UserData } from "@/schemas/all-users";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 const BADGE_VARIANTS_PER_PROVIDER = {
   sopwise: {
@@ -27,7 +29,7 @@ const BADGE_VARIANTS_PER_PROVIDER = {
   }
 >;
 
-export const columns: ColumnDef<any>[] = [
+export const columns: ColumnDef<UserData>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -103,5 +105,13 @@ export const columns: ColumnDef<any>[] = [
         </div>
       );
     },
+  },
+
+  {
+    id: "actions",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Actions" />
+    ),
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
