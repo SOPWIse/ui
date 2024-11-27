@@ -3,7 +3,10 @@ import { debounce } from "lodash";
 
 // import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
-import { Input } from "@/components/ui";
+import { Button, Input } from "@/components/ui";
+import { X } from "lucide-react";
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { Roles } from "../constants";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -12,9 +15,9 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
-  // const isFiltered =
-  //   table.getPreFilteredRowModel().rows.length >
-  //   table.getFilteredRowModel().rows.length;
+  const isFiltered =
+    table.getPreFilteredRowModel().rows.length >
+    table.getFilteredRowModel().rows.length;
 
   const handleSearch = debounce(table.setGlobalFilter, 500);
 
@@ -31,20 +34,20 @@ export function DataTableToolbar<TData>({
         {/*
          * GET STATE FROM THE TABLE ITSELF AND USE IT TO DETERMINE IF THE COLUMN IS SORTABLE
          */}
-        {/* {table.getColumn("status") && (
+        {table.getColumn("role") && (
           <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
+            column={table.getColumn("role")}
+            title="Role"
+            options={Roles}
           />
         )}
-        {table.getColumn("priority") && (
+        {/* {table.getColumn("priority") && (
           <DataTableFacetedFilter
             column={table.getColumn("priority")}
             title="Priority"
             options={priorities}
           />
-        )}
+        )} */}
         {isFiltered && (
           <Button
             variant="ghost"
@@ -54,7 +57,7 @@ export function DataTableToolbar<TData>({
             Reset
             <X className="w-4 h-4 ml-2" />
           </Button>
-        )} */}
+        )}
       </div>
       <DataTableViewOptions table={table} />
     </div>
