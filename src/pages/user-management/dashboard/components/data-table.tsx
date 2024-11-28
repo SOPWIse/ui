@@ -25,6 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui";
+import { handleToast } from "@/utils/handleToast";
 
 export function UsersTable() {
   const [columnVisibility, setColumnVisibility] =
@@ -56,6 +57,17 @@ export function UsersTable() {
     searchFields: ["name", "email", "provider"],
     sortOrder: sorting[0]?.desc ? "desc" : "asc",
   });
+
+  React.useEffect(() => {
+    if (usersQuery.isError) {
+      handleToast({
+        message: usersQuery.error.name,
+        type: "error",
+        description: usersQuery.error.message,
+        error: usersQuery.error,
+      });
+    }
+  }, [usersQuery.isError]);
 
   const table = useReactTable({
     data: usersQuery?.data?.data.data ?? [],

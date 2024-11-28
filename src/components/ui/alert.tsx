@@ -9,14 +9,20 @@ const alertVariants = cva(
     variants: {
       variant: {
         default: "bg-background text-foreground",
+        warning:
+          "border-yellow-500/50 bg-yellow-100 text-yellow-800 dark:border-yellow-500/10 dark:bg-yellow-900 dark:text-yellow-300",
         destructive:
           "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+        success:
+          "border-success/50 text-success dark:border-success border-green-200 bg-green-100 dark:text-green-100 dark:bg-green-800",
+        info: "border-blue-100 bg-blue-50/80 dark:border-blue-100/20 dark:bg-blue-400/20",
+        stegx: "border-violet-950 bg-[#781fff] text-white [&>svg]:text-white",
       },
     },
     defaultVariants: {
       variant: "default",
     },
-  },
+  }
 );
 
 const Alert = React.forwardRef<

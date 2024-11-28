@@ -39,7 +39,8 @@ const useGetAllUsers = (params?: GetAllUsersParams) => {
   return useQuery({
     queryKey: [queryKeys.user.allUsers, params],
     queryFn: () => getAllUsers(params),
-    enabled: user?.data?.role === "ADMIN",
+    // FIX THIS LATER ACCORDING TO ROLES
+    enabled: user?.data?.role === "ADMIN" || true,
     staleTime: 1000 * 60 * 5,
   });
 };

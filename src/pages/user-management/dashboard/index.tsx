@@ -10,7 +10,7 @@ const UserDashboard = () => {
   return (
     <section
       className={cn(
-        "w-full h-full p-10 ms-16 mt-12 bg-background text-foreground transition-all duration-300 ease-in-out",
+        "w-full h-full p-10 mt-12 bg-background text-foreground transition-all duration-300 ease-in-out",
         open ? "ms-[250px] w-[84%]" : "ms-[50px] w-[97%]"
       )}
     >

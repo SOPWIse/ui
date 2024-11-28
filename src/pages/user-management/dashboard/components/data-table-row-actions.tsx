@@ -12,6 +12,7 @@ import {
 import { Row } from "@tanstack/react-table";
 
 import { Copy, MoreHorizontal, Pen, Star, Trash } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -21,8 +22,12 @@ export function DataTableRowActions<TData>({
   // RECEIVE THE ROW HERE
   row,
 }: DataTableRowActionsProps<TData>) {
+  const navigate = useNavigate();
   function handleDelete() {
     console.log("Deleting");
+  }
+  function handleEdit(id: string) {
+    navigate(`/user/edit-user/${id}`);
   }
 
   return (
@@ -37,10 +42,17 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            // @ts-ignore
+            handleEdit(row.original?.id);
+          }}
+        >
           <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Edit
         </DropdownMenuItem>
+
         <DropdownMenuItem>
           <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Make a copy

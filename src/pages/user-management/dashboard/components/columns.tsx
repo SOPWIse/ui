@@ -2,32 +2,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { startCase, upperCase } from "lodash";
 import { Badge } from "@/components/ui";
-import { ComponentProps } from "react";
-import { Check } from "lucide-react";
-import { BsGoogle, BsMicrosoft } from "react-icons/bs";
 import { UserData } from "@/schemas/all-users";
 import { DataTableRowActions } from "./data-table-row-actions";
-
-const BADGE_VARIANTS_PER_PROVIDER = {
-  sopwise: {
-    variant: "secondary",
-    icon: <Check className="w-2 h-2" />,
-  },
-  oauth_google: {
-    variant: "info",
-    icon: <BsGoogle className="w-2 h-2" />,
-  },
-  oauth_microsoft: {
-    variant: "success",
-    icon: <BsMicrosoft className="w-2 h-2" />,
-  },
-} satisfies Record<
-  "sopwise" | "oauth_google" | "oauth_microsoft",
-  {
-    variant: ComponentProps<typeof Badge>["variant"];
-    icon: JSX.Element;
-  }
->;
+import { BADGE_VARIANTS_PER_PROVIDER } from "../constants/badge-variants-per-provider";
 
 export const columns: ColumnDef<UserData>[] = [
   {
