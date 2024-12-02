@@ -3,6 +3,7 @@ import { Dropdown } from "@/components/dropdown";
 import { FormInput } from "@/components/form-input";
 import { InfoBox } from "@/components/infobox";
 import { useUpdateUserMutation } from "@/hooks/mutations/user/useUpadteUserMutation";
+import { useGetUserById } from "@/hooks/queries/user/useGetUserById";
 import { userSchema } from "@/schemas/all-users";
 import { handleToast } from "@/utils/handleToast";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -16,6 +17,10 @@ const EditUserDetails = () => {
   const { id } = useParams();
   const [parent] = useAutoAnimate();
   const updateUserMutation = useUpdateUserMutation();
+  // REMOVE THIS LATER
+  const {
+    data: { provider },
+  } = useGetUserById(id);
 
   const {
     control,
@@ -30,14 +35,18 @@ const EditUserDetails = () => {
       updateUserMutation.mutate(
         {
           id,
-          data: { name, role },
+          data: { name, role, provider },
         },
         {
-          onSuccess: () => {
+          onSuccess: (updatedUser) => {
             handleToast({
               type: "success",
               message: "User Updated Successfully",
               description: "User details have been updated successfully",
+            });
+            reset(updatedUser, {
+              keepDirty: false,
+              keepDefaultValues: false,
             });
           },
           onError: (error) => {
