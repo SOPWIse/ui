@@ -148,7 +148,7 @@ export function UsersTable() {
               <>
                 {isLoading ? (
                   <>
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_) => (
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((_) => (
                       <TableRow key={_}>
                         <TableCell colSpan={columns.length}>
                           <Skeleton className="w-full h-10" />
