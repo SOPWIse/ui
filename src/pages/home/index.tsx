@@ -1,6 +1,8 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import SOPCreate from "./components/SOPCreate";
 import { useEffect } from "react";
+
 
 const Home = () => {
   useEffect(() => {}, []);
@@ -9,7 +11,12 @@ const Home = () => {
     <section className="mt-24">
       <SidebarProvider className="relative z-20">
         <AppSidebar />
+        <SidebarInset>
+        {<SOPCreate />}
+        </SidebarInset>
+        
       </SidebarProvider>
+      
     </section>
   );
 };
