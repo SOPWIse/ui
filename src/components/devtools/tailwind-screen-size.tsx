@@ -22,7 +22,7 @@ export const TailwindScreenSize = () => {
   const { width, height } = dimensions;
 
   return (
-    <div className="fixed bottom-5 right-5 flex items-center gap-2 rounded-full bg-black px-2.5 py-1 font-mono text-xs font-medium text-white">
+    <div className="fixed bottom-5 right-5 flex items-center gap-2 rounded-full bg-sidebar-foreground px-2.5 py-1 font-mono text-xs font-medium text-sidebar">
       <span>
         {width.toLocaleString()} x {height.toLocaleString()}
       </span>
