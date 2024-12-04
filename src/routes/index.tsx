@@ -15,6 +15,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 const Home = lazy(() => import("@/pages/home"));
 const User = lazy(() => import("@/pages/user-management"));
+const SOPContent = lazy(() => import("@/pages/sop-content"));
 
 const SignUp = lazy(() => import("@/pages/auth/sign-up"));
 
@@ -27,6 +28,11 @@ const masterRoutes = [
   {
     path: "/user/*",
     element: <User />,
+    permission: "*",
+  },
+  {
+    path: "/sop-content/*",
+    element: <SOPContent />,
     permission: "*",
   },
 ];

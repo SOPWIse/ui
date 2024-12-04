@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GalleryVerticalEnd, SquareTerminal } from "lucide-react";
+import { GalleryVerticalEnd, NotebookPen, Settings } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -27,9 +27,21 @@ const data = {
   ],
   navMain: [
     {
+      title: "SOPs Module",
+      url: "/sop-content",
+      icon: NotebookPen,
+      isActive: true,
+      items: [
+        {
+          title: "SOPs",
+          url: "/sop-content",
+        },
+      ],
+    },
+    {
       title: "Settings",
       url: "/user",
-      icon: SquareTerminal,
+      icon: Settings,
       isActive: true,
       items: [
         {
