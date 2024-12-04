@@ -6,10 +6,7 @@ import { ToggleTheme } from "../theme-toggler";
 import { useLogoutMutation } from "@/hooks/mutations";
 import { useUser } from "@clerk/clerk-react";
 import { Button } from "../button";
-import { Input } from "../ui";
-import { FormInput } from "../form-input";
 import { MdOutlineNotifications } from "react-icons/md";
-import { SearchIcon } from "lucide-react";
 
 const Logo = {
   light: "",
@@ -45,19 +42,6 @@ const Navbar = () => {
               <h1 className="block w-auto h-11">{NavLogo}</h1>
             </Link>
           </div> */}
-          <div className="relative flex items-center justify-center max-w-screen-md gap-2">
-            <FormInput
-              className="max-w-screen-md min-w-[400px] min-h-fit"
-              placeholder="Search SOPs..."
-            />
-            {/* <kbd className="absolute pointer-events-none right-[0.3rem] top-[0.6rem] flex h-5 select-none items-center gap-1 rounded border border-[--border] bg-[--muted] px-1.5 font-mono text-[10px] font-medium opacity-100 [&amp;_span]:text-xs">
-              <span>⌘</span>K
-            </kbd> */}
-            <Button variant={"default"} className="h-9">
-              <SearchIcon className="w-4 h-auto fill-foreground" />
-              Search
-            </Button>
-          </div>
 
           {/* <button
             className="[--background:#000000] [--color:#ffffff] [--muted:#242424] [--muted-foreground:#9c9c9c] [--border:#2e2e2e] relative inline-flex items-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-[--border] bg-[--background] hover:bg-[--muted] text-[--muted-foreground] hover:text-[--color] px-4 py-2 justify-start rounded-[0.5rem] text-sm font-normal shadow-none h-8 w-64"
