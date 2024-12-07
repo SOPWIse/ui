@@ -80,3 +80,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.animate-scale-check {
+  animation: scale-check 0.3s ease-out forwards;
+}

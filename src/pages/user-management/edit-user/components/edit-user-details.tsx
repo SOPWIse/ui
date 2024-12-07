@@ -73,7 +73,7 @@ const EditUserDetails = () => {
             <div className="flex items-center justify-between gap-4 ">
               <h3>
                 You have unsaved changes, you can click on <strong>Save</strong>{" "}
-                to save the changes to the deal, or click on{" "}
+                to save the changes to the SOP, or click on{" "}
                 <strong>Reset</strong> to discard the changes.
               </h3>
               <div className="flex">
@@ -91,7 +91,7 @@ const EditUserDetails = () => {
       <FormInput
         id="user-name"
         label="Name"
-        placeholder="Enter Deal Name..."
+        placeholder="Enter SOP Name..."
         {...register("name")}
         error={errors.name?.message}
         tooltipContent="Enter the name of the user"
