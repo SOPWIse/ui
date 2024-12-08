@@ -29,7 +29,9 @@ const SOPOverview = () => {
   const onSubmit = (data: SOP) => {
     if (!isDirty) return;
     if (isEdit) {
-      updateSOP.mutate(data, {
+      // Note : No need to send author in the request
+      const { author, ...rest } = data;
+      updateSOP.mutate(rest, {
         onSuccess: () => {
           handleToast({
             type: "success",
