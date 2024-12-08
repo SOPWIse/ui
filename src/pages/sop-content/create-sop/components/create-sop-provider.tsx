@@ -1,6 +1,8 @@
+import { Loader } from "@/components/loader";
+import { useGetSOPById } from "@/hooks/queries/sops/useGetSOPById";
 import { SOP } from "@/schemas/sop-content";
 import { DevTool } from "@hookform/devtools";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useParams } from "react-router-dom";
@@ -11,23 +13,22 @@ interface Props {
 
 const CreateSOPProvider = ({ children }: Props) => {
   const { id: sopId } = useParams();
-  //   const { data, isPending } = useSOPById(sopId);
+  const { data, isPending } = useGetSOPById(sopId);
+  console.log(sopId);
 
   const methods = useForm<SOP>({
     mode: "all",
   });
 
-  //   useEffect(() => {
-  //     if (dealId && !isPending) {
-  //       methods.reset({ ...data });
-  //     } else if (!dealId && preFillTemplate) {
-  //       methods.reset(getDefaultData());
-  //     }
-  //   }, [dealId, methods, data, isPending, preFillTemplate]);
+  useEffect(() => {
+    if (sopId && !isPending) {
+      methods.reset({ ...data });
+    }
+  }, [sopId, methods, data, isPending]);
 
-  //   if (dealId && isPending) {
-  //     return <Loader />;
-  //   }
+  if (sopId && isPending) {
+    return <Loader />;
+  }
 
   return (
     <>

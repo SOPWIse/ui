@@ -14,8 +14,7 @@ import {
 import { AiOutlineLoading } from "react-icons/ai";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
-import useGetAllUsers from "@/hooks/queries/user/useGetAllUsers";
-import { columns, sopMockData } from "./columns";
+import { columns } from "./columns";
 import {
   Skeleton,
   Table,
@@ -26,6 +25,7 @@ import {
   TableRow,
 } from "@/components/ui";
 import { handleToast } from "@/utils/handleToast";
+import useGetAllSOPsQuery from "@/hooks/queries/sops/useGetAllSOPsQuery";
 
 export function SOPsTable() {
   const [columnVisibility, setColumnVisibility] =
@@ -48,7 +48,7 @@ export function SOPsTable() {
     pageSize: 10,
   });
 
-  const usersQuery = useGetAllUsers({
+  const sopsQuery = useGetAllSOPsQuery({
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
     search: searchText,
@@ -59,18 +59,18 @@ export function SOPsTable() {
   });
 
   React.useEffect(() => {
-    if (usersQuery.isError) {
+    if (sopsQuery.isError) {
       handleToast({
-        message: usersQuery.error.name,
+        message: sopsQuery.error.name,
         type: "error",
-        description: usersQuery.error.message,
-        error: usersQuery.error,
+        description: sopsQuery.error.message,
+        error: sopsQuery.error,
       });
     }
-  }, [usersQuery.isError]);
+  }, [sopsQuery.isError]);
 
   const table = useReactTable({
-    data: sopMockData,
+    data: sopsQuery?.data?.data.data ?? [],
     columns: columns,
     state: {
       sorting,
@@ -84,7 +84,7 @@ export function SOPsTable() {
     onSortingChange: setSorting,
     // PAGINATION
     manualPagination: true,
-    // pageCount: usersQuery?.data?.data.meta.items.totalItems ?? 1,
+    pageCount: sopsQuery?.data?.data.meta.items.totalItems ?? 1,
     onPaginationChange: setPagination,
     // FILTERING
     manualFiltering: true,
@@ -96,7 +96,7 @@ export function SOPsTable() {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  const isLoading = usersQuery.isPending || usersQuery.isRefetching;
+  const isLoading = sopsQuery.isPending || sopsQuery.isRefetching;
 
   return (
     <div className="space-y-4">
@@ -171,7 +171,7 @@ export function SOPsTable() {
           </TableBody>
         </Table>
       </div>
-      {usersQuery.isPending ? null : <DataTablePagination table={table} />}
+      {sopsQuery.isPending ? null : <DataTablePagination table={table} />}
     </div>
   );
 }

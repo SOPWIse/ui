@@ -12,7 +12,11 @@ export const sopSchema = z.object({
     .string()
     .min(1, "Description is required")
     .max(1000, "Description must not exceed 1000 characters"),
-  authorId: z.string().uuid("Invalid UUID for authorId"),
+  author: z.object({
+    id: z.string().uuid(),
+    name: z.string(),
+    email: z.string().email(),
+  }),
   status: sopStatusEnum.optional().default("DRAFT"),
   category: z
     .string()
@@ -23,18 +27,10 @@ export const sopSchema = z.object({
   isDeleted: z.boolean().default(false),
   publishedAt: z.date().optional().nullable(),
   metaData: z.record(z.any()).optional(),
-  content: z
-    .string()
-    .min(1, "Content is required")
-    .max(1000000, "Content is too long")
-    .optional(),
-  createdAt: z.date().default(new Date()),
-  updatedAt: z.date().default(new Date()),
-  contentUrl: z
-    .string()
-    .url("Invalid URL")
-    .max(500, "Content URL must not exceed 500 characters")
-    .optional(),
+  content: z.string().max(1000000, "Content is too long").optional().nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  contentUrl: z.string().url("Invalid URL").nullable(),
 });
 
 export type SOP = z.infer<typeof sopSchema>;

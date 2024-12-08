@@ -27,7 +27,7 @@ export function DataTableRowActions<TData>({
     console.log("Deleting");
   }
   function handleEdit(id: string) {
-    navigate(`/user/edit-user/${id}`);
+    navigate(`/sop-content/${id}/overview`);
   }
 
   return (
