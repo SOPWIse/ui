@@ -31,7 +31,8 @@ export function DataTableRowActions<TData>({
   }
 
   function handleManage(id: string) {
-    navigate(`/sop-content/${id}/overview`);
+    console.log(id);
+    navigate(`/sop-content/details/${id}`);
   }
 
   return (

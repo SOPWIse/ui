@@ -8,11 +8,13 @@ import { Eye, Pencil } from "lucide-react";
 interface Props<T extends FieldValues> {
   fieldPath: FieldPath<T>;
   sortingControl: ReactNode;
+  viewOnly?: boolean;
 }
 
 const RichTextEditor = <T extends FieldValues>({
   sortingControl,
   fieldPath,
+  viewOnly,
 }: Props<T>) => {
   const { watch, setValue } = useFormContext<T>();
   const [mode, setMode] = React.useState<"edit" | "view">("edit");
@@ -37,32 +39,35 @@ const RichTextEditor = <T extends FieldValues>({
   // IMPORTANT NOTE: CANNOT USE CONTROLLER WITH TINYMCE, IT WILL BREAK
   return (
     <div className="z-0 w-full p-2 -mt-8 space-y-5 rounded-md ">
-      <ToggleGroup
-        type="single"
-        size="sm"
-        value={mode}
-        className="absolute z-10 top-4 right-4"
-        variant={"outline"}
-      >
-        <ToggleGroupItem
-          value="edit"
-          aria-label="Edit"
-          onClick={() => setMode("edit")}
+      {viewOnly ? null : (
+        <ToggleGroup
+          type="single"
+          size="sm"
+          value={mode}
+          className="absolute z-10 top-4 right-4"
+          variant={"outline"}
         >
-          <Pencil className="w-4 h-auto" />
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          value="view"
-          aria-label="View"
-          onClick={() => setMode("view")}
-        >
-          <Eye className="w-4 h-auto" />
-        </ToggleGroupItem>
-      </ToggleGroup>
+          <ToggleGroupItem
+            value="edit"
+            aria-label="Edit"
+            onClick={() => setMode("edit")}
+          >
+            <Pencil className="w-4 h-auto" />
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="view"
+            aria-label="View"
+            onClick={() => setMode("view")}
+          >
+            <Eye className="w-4 h-auto" />
+          </ToggleGroupItem>
+        </ToggleGroup>
+      )}
       <>
         {mode === "edit" ? (
           <>
             <Editor
+              disabled={viewOnly}
               apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
               onEditorChange={(value) => handleChange(value)}
               value={

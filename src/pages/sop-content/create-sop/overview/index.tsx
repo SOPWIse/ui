@@ -74,7 +74,6 @@ const SOPOverview = () => {
       id="sop-overview-form"
       title="Overview"
       className="bg-sidebar"
-      // TODO: HANDLE IT LATER
       onSubmit={handleSubmit(onSubmit)}
       onKeyDown={(e) => {
         e.key === "Enter" && e.preventDefault();
@@ -103,7 +102,7 @@ const SOPOverview = () => {
             </Button>
             <Button
               id="next-button"
-              isLoading={false}
+              isLoading={createSOP.isPending || updateSOP.isPending}
               disabled={!isDirty}
               type="submit"
             >
@@ -123,6 +122,7 @@ const SOPOverview = () => {
           error={errors.title?.message}
           placeholder="Enter SOP Name..."
           label="SOP Name"
+          tooltipContent="Enter the name of the SOP"
           className="max-w-xl"
           {...register("title")}
         />

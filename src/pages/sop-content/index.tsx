@@ -4,16 +4,29 @@ import SOPOverview from "./create-sop/overview";
 import SOPLayout from "./create-sop/components/sop-layout";
 import Content from "./create-sop/content";
 import Review from "./create-sop/review";
+import CreateSOPProvider from "./create-sop/components/create-sop-provider";
+import ManageSOP from "./manage-sop";
 
 const SOPContent = () => {
   return (
     <Routes>
       <Route path="/" element={<SOPsDashboard />} />
+      {/* MANAGEMENT */}
+      <Route
+        path="details/:id/*"
+        element={
+          <CreateSOPProvider>
+            <ManageSOP />
+          </CreateSOPProvider>
+        }
+      />
+
       <Route path="/create" element={<SOPLayout />}>
         {/* CREATE CASE */}
         <Route path="overview" element={<SOPOverview />} />
       </Route>
-      {/* CREATE CASE */}
+
+      {/* EDIT CASE */}
       <Route path=":id/*" element={<SOPLayout />}>
         <Route path="overview" element={<SOPOverview />} />
         <Route path="content" element={<Content />} />

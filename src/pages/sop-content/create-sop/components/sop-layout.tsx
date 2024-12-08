@@ -27,8 +27,6 @@ const SOPLayout = () => {
     return currentStep ? currentStep.index : -1;
   }, [pathname]);
 
-  console.log(activeStep);
-
   return (
     <Scaffold>
       <StepperContext.Provider

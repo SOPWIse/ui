@@ -23,3 +23,15 @@ export const SOP_CREATION_STEPS = [
     description: "Review the SOP and submit it for approval",
   },
 ] as const;
+
+export const COLORS_LIST = [
+  "#2563EB",
+  "#F87171",
+  "#34D399",
+  "#FBBF24",
+  "#F472B6",
+  "#60A5FA",
+  "#10B981",
+  "#3B82F6",
+  "#F97316",
+];

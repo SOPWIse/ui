@@ -16,10 +16,7 @@ const Content = () => {
   const isEdit = !!id;
   const updateSOP = useUpdateSOPMutation(id);
 
-  const {
-    handleSubmit,
-    formState: { isDirty },
-  } = useFormContext<SOP>();
+  const { handleSubmit } = useFormContext<SOP>();
 
   const onSubmit = (data: Partial<SOP>) => {
     if (isEdit) {

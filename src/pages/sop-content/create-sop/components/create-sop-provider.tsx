@@ -13,7 +13,6 @@ interface Props {
 
 const CreateSOPProvider = ({ children }: Props) => {
   const { id: sopId } = useParams();
-  console.log(sopId);
   const { data, isPending } = useGetSOPById(sopId);
   console.log(sopId);
 
@@ -23,7 +22,7 @@ const CreateSOPProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (sopId && !isPending) {
-      methods.reset({ ...data, content: data.content ? data.content : "" });
+      methods.reset({ ...data, content: data?.content ? data.content : "" });
     }
   }, [sopId, methods, data, isPending]);
 
