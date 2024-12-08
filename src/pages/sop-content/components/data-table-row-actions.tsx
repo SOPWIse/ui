@@ -69,10 +69,6 @@ export function DataTableRowActions<TData>({
           Manage SOP
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Make a copy
-        </DropdownMenuItem>
-        <DropdownMenuItem>
           <Star className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Favorite
         </DropdownMenuItem>
