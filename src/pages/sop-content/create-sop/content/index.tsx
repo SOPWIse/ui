@@ -2,7 +2,9 @@ import { BreadcrumbsBar } from "@/components/breadcrumbs";
 import { Button } from "@/components/button";
 import FormContainer from "@/components/form-container";
 import RichTextEditor from "@/components/rich-text-editor";
+import { useUpdateSOPMutation } from "@/hooks/mutations/sops/useUpdateSOPMutation";
 import { SOP } from "@/schemas/sop-content";
+import { handleToast } from "@/utils/handleToast";
 import { useFormContext } from "react-hook-form";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { MdHelpOutline } from "react-icons/md";
@@ -11,14 +13,40 @@ import { useNavigate, useParams } from "react-router-dom";
 const Content = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const isEdit = !!id;
+  const updateSOP = useUpdateSOPMutation(id);
+
   const {
     handleSubmit,
-    // register,
-    // formState: { errors, isDirty },
+    formState: { isDirty },
   } = useFormContext<SOP>();
 
-  const onSubmit = () => {
-    navigate(`/sop-content/${id}/review`);
+  const onSubmit = (data: Partial<SOP>) => {
+    if (isEdit) {
+      updateSOP.mutate(
+        {
+          content: data.content,
+        },
+        {
+          onSuccess: () => {
+            handleToast({
+              type: "success",
+              message: "SOP Updated Successfully",
+              description: "SOP has been updated successfully",
+            });
+            navigate(`/sop-content/${id}/review`);
+          },
+          onError: (error) => {
+            handleToast({
+              error,
+              message: "Error Updating SOP",
+              type: "error",
+              description: "An error occurred while updating the SOP",
+            });
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -55,8 +83,7 @@ const Content = () => {
             </Button>
             <Button
               id="next-button"
-              isLoading={false}
-              disabled={false}
+              isLoading={updateSOP.isPending}
               type="submit"
             >
               <div className="flex items-center gap-2">

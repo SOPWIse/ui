@@ -68,25 +68,6 @@ export const columns: ColumnDef<SOP>[] = [
     },
   },
   {
-    accessorKey: "isListed",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Approval Status" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-semibold">
-            {row.original.isListed ? (
-              <Badge variant={"success"}>Approved</Badge>
-            ) : (
-              <Badge variant={"warning"}>Not Approved</Badge>
-            )}
-          </span>
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: "category",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Approval Status" />

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui";
 import { Row } from "@tanstack/react-table";
 
-import { Copy, MoreHorizontal, Pen, Star, Trash } from "lucide-react";
+import { BookOpen, Copy, MoreHorizontal, Pen, Star, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface DataTableRowActionsProps<TData> {
@@ -30,9 +30,13 @@ export function DataTableRowActions<TData>({
     navigate(`/sop-content/${id}/overview`);
   }
 
+  function handleManage(id: string) {
+    navigate(`/sop-content/${id}/overview`);
+  }
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="min-w-">
         <Button
           variant="ghost"
           className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
@@ -53,6 +57,16 @@ export function DataTableRowActions<TData>({
           Edit
         </DropdownMenuItem>
 
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            // @ts-ignore
+            handleManage(row.original?.id);
+          }}
+        >
+          <BookOpen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          Manage SOP
+        </DropdownMenuItem>
         <DropdownMenuItem>
           <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Make a copy

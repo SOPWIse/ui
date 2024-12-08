@@ -20,6 +20,7 @@ const RichTextEditor = <T extends FieldValues>({
   const value = watch(fieldPath);
 
   const handleChange = (value: string) => {
+    console.log(value);
     // FIX THIS
     setValue(fieldPath, value as any);
   };
