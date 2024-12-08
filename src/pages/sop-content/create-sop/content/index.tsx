@@ -6,10 +6,11 @@ import { SOP } from "@/schemas/sop-content";
 import { useFormContext } from "react-hook-form";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { MdHelpOutline } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Content = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const {
     handleSubmit,
     // register,
@@ -17,7 +18,7 @@ const Content = () => {
   } = useFormContext<SOP>();
 
   const onSubmit = () => {
-    navigate("/sop-content/review");
+    navigate(`/sop-content/${id}/review`);
   };
 
   return (

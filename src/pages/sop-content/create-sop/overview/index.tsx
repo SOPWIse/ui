@@ -3,22 +3,70 @@ import { Button } from "@/components/button";
 import FormContainer from "@/components/form-container";
 import { FormInput } from "@/components/form-input";
 import { FormTextArea } from "@/components/form-textarea";
+import { useCreateSOPMutation } from "@/hooks/mutations/sops/useCreateSOPMutation";
+import { useUpdateSOPMutation } from "@/hooks/mutations/sops/useUpdateSOPMutation";
 import { SOP } from "@/schemas/sop-content";
+import { handleToast } from "@/utils/handleToast";
 import { useFormContext } from "react-hook-form";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { MdHelpOutline } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const SOPOverview = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const createSOP = useCreateSOPMutation();
+  const updateSOP = useUpdateSOPMutation(id);
+
   const {
     handleSubmit,
     register,
     formState: { errors, isDirty },
   } = useFormContext<SOP>();
 
-  const onSubmit = () => {
-    navigate("/sop-content/content");
+  const isEdit = !!id;
+
+  const onSubmit = (data: SOP) => {
+    if (!isDirty) return;
+    if (isEdit) {
+      updateSOP.mutate(data, {
+        onSuccess: () => {
+          handleToast({
+            type: "success",
+            message: "SOP Updated Successfully",
+            description: "SOP has been updated successfully",
+          });
+          navigate(`/sop-content/${id}/content`);
+        },
+        onError: (error) => {
+          handleToast({
+            error,
+            message: "Error Updating SOP",
+            type: "error",
+            description: "An error occurred while updating the SOP",
+          });
+        },
+      });
+    } else {
+      createSOP.mutate(data, {
+        onSuccess: (response) => {
+          handleToast({
+            type: "success",
+            message: "SOP Created Successfully",
+            description: "SOP has been created successfully",
+          });
+          navigate(`/sop-content/${response.id}/content`);
+        },
+        onError: (error) => {
+          handleToast({
+            error,
+            message: "Error Creating SOP",
+            type: "error",
+            description: "An error occurred while creating the SOP",
+          });
+        },
+      });
+    }
   };
 
   return (
