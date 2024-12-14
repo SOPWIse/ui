@@ -64,7 +64,8 @@ const SOPMetaData = ({ className }: SOPMetaDataProps) => {
   return (
     <Card
       className={cn(
-        "w-full relative overflow-hidden rounded-lg shadow-sm space-y-2 h-max bg-card text-card-foreground",
+        "w-full relative overflow-hidden rounded-lg space-y-2 h-max bg-card text-card-foreground",
+        "hidden w-full flex-col justify-between border border-border bg-background/20 sm:flex break-inside-avoid transition-all bg-gradient-to-tr from-transparent via-transparent to-[rgb(32,128,141,0.1)]",
         className
       )}
     >
@@ -90,6 +91,11 @@ const SOPMetaData = ({ className }: SOPMetaDataProps) => {
           </div>
         </div>
       </CardHeader>
+      <img
+        src="https://assets.dub.co/testimonials/card-dotted-grid.png"
+        alt="Dotted grid background"
+        className="absolute top-0 right-0 pointer-events-none"
+      ></img>
       <CardContent className="space-y-4">
         <div className="pt-2 mb-3 border rounded-lg bg-sidebar">
           {profileData.map((data, index) => (
