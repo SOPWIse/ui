@@ -17,6 +17,7 @@ async function getCurrentUser() {
     console.log("ERROR FETCHING USER", e);
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    window.location.href = "/"
     return null;
   }
 }
