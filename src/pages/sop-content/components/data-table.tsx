@@ -54,7 +54,7 @@ export function SOPsTable() {
     search: searchText,
     sortBy: sorting[0]?.id,
     // TODO : SEARCH BY ROLE CURRENTLY NOT SUPPORTED BY BACKEND (SINCE ITS AN ENUM)
-    searchFields: ["name", "email", "provider"],
+    searchFields: ["title", "status", "category"],
     sortOrder: sorting[0]?.desc ? "desc" : "asc",
   });
 

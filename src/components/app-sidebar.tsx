@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   GalleryVerticalEnd,
+  LayoutDashboardIcon,
   NotebookPen,
   SearchIcon,
   Settings,
@@ -34,6 +35,18 @@ const data = {
     },
   ],
   navMain: [
+    {
+      title: "SOPWise",
+      url: "/home",
+      icon: LayoutDashboardIcon,
+      isActive: true,
+      items: [
+        {
+          title: "Dashboard",
+          url: "/home",
+        },
+      ],
+    },
     {
       title: "SOPs Module",
       url: "/sop-content",

@@ -34,6 +34,9 @@ interface DefaultKeyValue {
 export interface PaginatedParams<T = DefaultKeyValue> {
   limit?: number;
   page?: number;
-  sort?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  search?: string;
+  searchFields?: string[];
   filter?: Partial<T>;
 }

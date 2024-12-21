@@ -26,8 +26,9 @@ export const columns: ColumnDef<SOP>[] = [
   {
     accessorKey: "author",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="SOP Name" />
+      <DataTableColumnHeader column={column} title="Author" />
     ),
+    enableSorting: false,
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">

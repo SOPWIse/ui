@@ -17,6 +17,7 @@ import BasicInformation from "./basic-information";
 import RichTextContent from "./rich-text-content";
 import { PlaceholderBox } from "@/components/placeholder-box";
 import { cn } from "@/lib/utils";
+import PublishModal from "./components/publish-modal";
 
 const ManageSOP = () => {
   const { id } = useParams();
@@ -45,17 +46,7 @@ const ManageSOP = () => {
               <BsArrowLeft className="w-4 h-auto fill-foreground" />
               Previous
             </Button>
-            <Button
-              id="next-button"
-              isLoading={false}
-              disabled={false}
-              type="submit"
-            >
-              <div className="flex items-center gap-2">
-                <span>Publish</span>
-                <BsArrowRight className="w-4 h-auto fill-background" />
-              </div>
-            </Button>
+            <PublishModal />
           </div>
         }
       />

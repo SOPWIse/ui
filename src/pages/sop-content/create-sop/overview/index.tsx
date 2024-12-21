@@ -27,7 +27,7 @@ const SOPOverview = () => {
   const isEdit = !!id;
 
   const onSubmit = (data: SOP) => {
-    if (!isDirty) return;
+    if (!isDirty) navigate(`/sop-content/${id}/content`);
     if (isEdit) {
       // Note : No need to send author in the request
       const { author, ...rest } = data;
@@ -105,7 +105,7 @@ const SOPOverview = () => {
             <Button
               id="next-button"
               isLoading={createSOP.isPending || updateSOP.isPending}
-              disabled={!isDirty}
+              // disabled={!isDirty}
               type="submit"
             >
               <div className="flex items-center gap-2">

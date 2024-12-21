@@ -20,6 +20,7 @@ const paginatedSOPSchema = createPaginatedResponseSchema(sopSchema);
 const getAllSOPs = async (
   params?: GetAllSOPsParams
 ): Promise<z.infer<typeof paginatedSOPSchema>> => {
+  console.log("params", params);
   const response = await api.get("/sop/all", {
     params: {
       page: params?.page ?? 1,
