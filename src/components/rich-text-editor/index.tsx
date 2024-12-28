@@ -67,9 +67,18 @@ const RichTextEditor = <T extends FieldValues>({
         {mode === "edit" ? (
           <>
             <Editor
+              ref={(ref) => {
+                console.log(ref)
+              }}
               disabled={viewOnly}
               apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
               onEditorChange={(value) => handleChange(value)}
+              // onSelectionChange={(event) => console.log(JSON.stringify(event, null,2))}
+              // onNodeChange={(event) => {
+              //   const {getSel, getSelectedBlocks, getStart, getEnd, getContent} = event?.target?.selection
+                
+              //   console.log(getContent?.())
+              // }}
               value={
                 value ?? "<p>This is the initial content of the editor.</p>"
               }
@@ -108,11 +117,30 @@ const RichTextEditor = <T extends FieldValues>({
                 ],
                 menubar: "file edit view insert format tools table help",
                 toolbar_mode: "sliding",
-                contextmenu: "link image table",
+                contextmenu: "link image table | customItem",
+                quickbars_selection_toolbar: 'bold italic | blocks | quicklink blockquote | customItem',
+                // quickbars_selection_toolbar: "bold italic underline customItem",
                 toolbar:
-                  "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                  "undo redo | bold italic underline strikethrough | bullist numlist | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                 content_style:
                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                  setup: (editor) => {
+                    editor.ui.registry.addButton('customItem', {
+                      icon: 'comment-add',
+                      tooltip: "Add comment",
+                      onAction: () => {
+                        const selectedText = editor.selection.getContent();
+                        console.log(editor?.selection?.getNode()?.nodeName, "<><><><><>")
+                        console.log("Selected text", selectedText)
+                        if (selectedText) {
+                          // Apply custom logic here, e.g., wrap text in a custom span
+                          editor.selection.setContent(`<span style="background-color:red;color:white">${selectedText}</span>`);
+                        } else {
+                          alert('Please select some text.');
+                        }
+                      },
+                    });
+                  },
               }}
             />
           </>
