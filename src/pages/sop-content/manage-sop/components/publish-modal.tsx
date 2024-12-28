@@ -11,7 +11,7 @@ const PublishModal = () => {
   const [open, setOpen] = useState(false);
   const { id } = useParams();
   const publishMutation = usePublishSOPById();
-  const { data: sopData } = useGetSOPById(id);
+  const { data: sopData, refetch } = useGetSOPById(id);
   console.log(sopData.status === "PUBLISHED");
 
   const handlePublish = () => {
@@ -24,6 +24,8 @@ const PublishModal = () => {
             message: "Success",
           });
           setOpen(false);
+          // WE IDEALLY SHOULDNT BE NEEDING REFETCH,FIGURE OUT WHY ITS NOT INVALIDATING
+          refetch();
         },
         onError: (error) => {
           handleToast({
@@ -43,9 +45,10 @@ const PublishModal = () => {
       className="flex flex-col gap-2"
       title="Approve Form Submission"
       description="Are you sure you want to approve the form submission?"
+      disableClose={publishMutation.isPending}
       trigger={
         <Button
-          isLoading={false}
+          isLoading={publishMutation.isPending}
           type="submit"
           disabled={publishMutation.isPending || sopData.status === "PUBLISHED"}
         >
@@ -57,7 +60,9 @@ const PublishModal = () => {
       }
       footer={
         <div className="flex justify-end gap-4">
-          <Button variant="ghost">Cancel</Button>
+          <Button variant="ghost" disabled={publishMutation.isPending}>
+            Cancel
+          </Button>
           <Button
             isLoading={publishMutation.isPending}
             variant="default"

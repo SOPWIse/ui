@@ -30,25 +30,31 @@ const SOPOverview = () => {
     if (!isDirty) navigate(`/sop-content/${id}/content`);
     if (isEdit) {
       // Note : No need to send author in the request
-      const { author, ...rest } = data;
-      updateSOP.mutate(rest, {
-        onSuccess: () => {
-          handleToast({
-            type: "success",
-            message: "SOP Updated Successfully",
-            description: "SOP has been updated successfully",
-          });
-          navigate(`/sop-content/${id}/content`);
+      const { title, description } = data;
+      updateSOP.mutate(
+        {
+          title,
+          description,
         },
-        onError: (error) => {
-          handleToast({
-            error,
-            message: "Error Updating SOP",
-            type: "error",
-            description: "An error occurred while updating the SOP",
-          });
-        },
-      });
+        {
+          onSuccess: () => {
+            handleToast({
+              type: "success",
+              message: "SOP Updated Successfully",
+              description: "SOP has been updated successfully",
+            });
+            navigate(`/sop-content/${id}/content`);
+          },
+          onError: (error) => {
+            handleToast({
+              error,
+              message: "Error Updating SOP",
+              type: "error",
+              description: "An error occurred while updating the SOP",
+            });
+          },
+        }
+      );
     } else {
       createSOP.mutate(data, {
         onSuccess: (response) => {

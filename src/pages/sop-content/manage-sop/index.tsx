@@ -2,7 +2,7 @@ import { BreadcrumbsBar } from "@/components/breadcrumbs";
 import { Button } from "@/components/button";
 import Scaffold from "@/components/scaffold";
 import { useGetSOPById } from "@/hooks/queries/sops/useGetSOPById";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { BsArrowLeft } from "react-icons/bs";
 import {
   MdArrowForward,
   MdHelpOutline,
