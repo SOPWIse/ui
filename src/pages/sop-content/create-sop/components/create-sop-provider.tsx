@@ -14,7 +14,6 @@ interface Props {
 const CreateSOPProvider = ({ children }: Props) => {
   const { id: sopId } = useParams();
   const { data, isPending } = useGetSOPById(sopId);
-  console.log(sopId);
 
   const methods = useForm<SOP>({
     mode: "all",

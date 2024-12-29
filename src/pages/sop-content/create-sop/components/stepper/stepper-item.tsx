@@ -23,7 +23,7 @@ export function StepperItem({ step, children, className }: StepperItemProps) {
             {
               "bg-blue-600": completed,
               "bg-gray-200": !completed,
-            }
+            },
           )}
           style={{ left: "50%" }}
           aria-hidden="true"

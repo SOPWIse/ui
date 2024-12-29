@@ -41,7 +41,7 @@ const Content = () => {
               description: "An error occurred while updating the SOP",
             });
           },
-        }
+        },
       );
     }
   };

@@ -31,8 +31,11 @@ export function DataTableRowActions<TData>({
   }
 
   function handleManage(id: string) {
-    console.log(id);
     navigate(`/sop-content/details/${id}`);
+  }
+
+  function handleReview(id: string) {
+    navigate(`/sop-content/comment/${id}`);
   }
 
   return (
@@ -67,6 +70,16 @@ export function DataTableRowActions<TData>({
         >
           <BookOpen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Manage SOP
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            // @ts-ignore
+            handleReview(row.original?.id);
+          }}
+        >
+          <BookOpen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          Review SOP
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Star className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
