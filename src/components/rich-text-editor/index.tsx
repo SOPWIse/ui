@@ -67,9 +67,6 @@ const RichTextEditor = <T extends FieldValues>({
         {mode === "edit" ? (
           <>
             <Editor
-              ref={(ref) => {
-                console.log(ref)
-              }}
               disabled={viewOnly}
               apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
               onEditorChange={(value) => handleChange(value)}
