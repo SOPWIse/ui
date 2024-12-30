@@ -16,7 +16,7 @@ const Content = () => {
   const isEdit = !!id;
   const updateSOP = useUpdateSOPMutation(id);
 
-  const { handleSubmit } = useFormContext<SOP>();
+  const { handleSubmit, watch } = useFormContext<SOP>();
 
   const onSubmit = (data: Partial<SOP>) => {
     if (isEdit) {
@@ -41,7 +41,7 @@ const Content = () => {
               description: "An error occurred while updating the SOP",
             });
           },
-        },
+        }
       );
     }
   };
@@ -61,7 +61,7 @@ const Content = () => {
         onBack={() => navigate(-1)}
         path={[
           { name: "SOPs Studio", url: "/sop-content" },
-          { name: "Content", url: "." },
+          { name: `Content (${watch("title")})`, url: "." },
         ]}
         rightArea={
           <div className="flex items-center gap-4">

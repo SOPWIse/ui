@@ -11,7 +11,15 @@ import {
 } from "@/components/ui";
 import { Row } from "@tanstack/react-table";
 
-import { BookOpen, Copy, MoreHorizontal, Pen, Star, Trash } from "lucide-react";
+import {
+  BookOpen,
+  Copy,
+  MoreHorizontal,
+  Pen,
+  ScanEye,
+  Star,
+  Trash,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface DataTableRowActionsProps<TData> {
@@ -78,7 +86,7 @@ export function DataTableRowActions<TData>({
             handleReview(row.original?.id);
           }}
         >
-          <BookOpen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          <ScanEye className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Review SOP
         </DropdownMenuItem>
         <DropdownMenuItem>

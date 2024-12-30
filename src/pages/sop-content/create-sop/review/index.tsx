@@ -6,21 +6,16 @@ import { SOP } from "@/schemas/sop-content";
 import { useFormContext } from "react-hook-form";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { MdHelpOutline } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Review = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const {
-    handleSubmit,
     watch,
     // register,
     // formState: { errors, isDirty },
   } = useFormContext<SOP>();
-
-  const onSubmit = () => {
-    // navigate("/sop-content/review");
-    alert("Submitted");
-  };
 
   return (
     <FormContainer
@@ -28,7 +23,7 @@ const Review = () => {
       title="Review"
       className="bg-sidebar"
       // TODO: HANDLE IT LATER
-      onSubmit={handleSubmit(onSubmit)}
+      // onSubmit={handleSubmit(onSubmit)}
       onKeyDown={(e) => {
         e.key === "Enter" && e.preventDefault();
       }}
@@ -56,8 +51,7 @@ const Review = () => {
             </Button>
             <Button
               id="next-button"
-              isLoading={false}
-              disabled={false}
+              onClick={() => navigate(`/sop-content/details/${id}`)}
               type="submit"
             >
               <div className="flex items-center gap-2">

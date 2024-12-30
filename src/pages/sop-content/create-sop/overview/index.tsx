@@ -22,6 +22,7 @@ const SOPOverview = () => {
     handleSubmit,
     register,
     formState: { errors, isDirty },
+    watch,
   } = useFormContext<SOP>();
 
   const isEdit = !!id;
@@ -30,12 +31,15 @@ const SOPOverview = () => {
     if (!isDirty) navigate(`/sop-content/${id}/content`);
     if (isEdit) {
       // Note : No need to send author in the request
-      const { title, description } = data;
+      // const { title, description } = data;
+      const { author, ...rest } = data;
+
       updateSOP.mutate(
-        {
-          title,
-          description,
-        },
+        // {
+        //   title,
+        //   description,
+        // },
+        rest,
         {
           onSuccess: () => {
             handleToast({
@@ -53,7 +57,7 @@ const SOPOverview = () => {
               description: "An error occurred while updating the SOP",
             });
           },
-        },
+        }
       );
     } else {
       createSOP.mutate(data, {
@@ -91,7 +95,7 @@ const SOPOverview = () => {
         onBack={() => navigate(-1)}
         path={[
           { name: "SOPs Studio", url: "/sop-content" },
-          { name: "Overview", url: "." },
+          { name: `Overview (${watch("title")})`, url: "." },
         ]}
         rightArea={
           <div className="flex items-center gap-4">
