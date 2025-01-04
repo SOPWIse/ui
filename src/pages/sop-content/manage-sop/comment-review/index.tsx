@@ -1,95 +1,143 @@
 import { BreadcrumbsBar } from "@/components/breadcrumbs";
 import { Button } from "@/components/button";
 import Scaffold from "@/components/scaffold";
-import { useGetSOPById } from "@/hooks/queries/sops/useGetSOPById";
-import {
-  BsArrowLeft,
-  BsCheckCircle,
-  BsExclamationCircle,
-} from "react-icons/bs";
-import { IoIosSend } from "react-icons/io";
-import { VscCommentUnresolved } from "react-icons/vsc";
+import { BsArrowLeft } from "react-icons/bs";
 import { MdHelpOutline } from "react-icons/md";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import CommentEditor from "./components/comment-editor";
 import ApproveModal from "./components/approve-sop";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { Textarea } from "@/components/ui";
 import { useUserQuery } from "@/hooks/queries/user";
-import { formatDate } from "@/utils/formatDate";
 
-export type CommentItem = {
-  commentor: string;
-  timestamp: string;
-  selectedText?: string;
-  htmlString: string;
-  comment: string;
-  isResolved?: boolean;
-  isSent: boolean;
-  uniqueId?: string;
-  replies?: CommentItem[]
-  
-};
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import CommentList from "./components/comment-list";
+import { useCreateCommentMutation } from "@/hooks/mutations/sops/useCreateCommentMutation";
+import { handleToast } from "@/utils/handleToast";
+import { CommentItem, SOP } from "@/schemas/sop-content";
+import { useResolveCommentMutation } from "@/hooks/mutations/sops/useResolveComment";
 
 const CommentReview = () => {
-  const { id } = useParams();
+  const { control } = useFormContext<SOP>();
   const navigate = useNavigate();
-  const sopById = useGetSOPById(id);
-  const sopTitle = sopById.data?.title;
+
+  const sopById = useWatch({
+    control,
+  });
+  const sopTitle = sopById?.title;
   const user = useUserQuery();
-  const [comments, setComments] = useState<CommentItem[]>([]);
-  const [resolved, setResolved] = useState<CommentItem>();
+  const {
+    fields: comments,
+    prepend,
+    update,
+  } = useFieldArray<SOP>({
+    control,
+    name: "comments",
+  });
+
+  const createComment = useCreateCommentMutation();
+  const resolve = useResolveCommentMutation();
   const isComment = comments.length > 0;
 
-  const handleCommentChange = (index: number, value: string) => {
-    setComments((prev) =>
-      prev.map((comment, i) =>
-        i === index ? { ...comment, comment: value } : comment,
-      ),
-    );
-  };
+  function handleCommentChange(index: number, value: string) {
+    const pre = comments?.at(index);
+    update(index, { ...pre, comment: value });
+  }
 
-  const sendComment = (index: number) => {
-    setComments((prev) =>
-      prev.map((comment, i) =>
-        i === index ? { ...comment, isSent: true } : comment,
-      ),
-    );
-  };
+  function sendComment(index: number) {
+    const pre = comments?.at(index) as CommentItem;
+    update(index, { ...pre, timestamp: undefined });
 
-  const resolveComment = (index: number) => {
-    setComments((prev) =>
-      prev.map((comment, i) => {
-        if (i === index) {
-          setResolved(comment);
-          return { ...comment, isResolved: true };
-        } else {
-          return comment;
-        }
-      }),
+    if (!pre?.comment || !sopById?.content?.length) {
+      return;
+    }
+    const body = {
+      comment: pre.comment ?? "",
+      contentId: sopById?.id ?? "",
+      htmlString: pre?.htmlString ?? "",
+      selectedText: pre?.selectedText ?? "",
+      uniqueId: pre?.uniqueId ?? "",
+      content: sopById?.content ?? "",
+    };
+
+    createComment.mutate(body, {
+      onError: (error) => {
+        handleToast({
+          error,
+          message: "Error while sending comment",
+          type: "error",
+        });
+      },
+    });
+  }
+
+  function resolveComment(index: number) {
+    const pre = comments?.at(index) as CommentItem;
+    const content = sopById?.content;
+    const contentId = sopById?.id;
+    const commentId = pre?.backendId;
+
+    console.log({ content, contentId, commentId });
+
+    if (!content || !contentId || !commentId) {
+      return;
+    }
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, "text/html");
+
+    const commentSpan = doc.querySelector(
+      `span[data-comment-id="${pre.uniqueId}"]`,
     );
-  };
+
+    console.log({ commentSpan });
+
+    if (commentSpan) {
+      commentSpan.textContent = pre.htmlString as string;
+      commentSpan.removeAttribute("id");
+      commentSpan.removeAttribute("data-comment-id");
+      commentSpan.removeAttribute("style");
+    }
+
+    const updatedContent = doc.body.innerHTML;
+
+    const body = {
+      contentId,
+      commentId,
+      content: updatedContent,
+    };
+
+    resolve.mutate(body, {
+      onError: (error) => {
+        handleToast({
+          error,
+          message: "Error while updating comment",
+          type: "error",
+        });
+      },
+      onSuccess: () => {
+        update(index, { ...pre, status: "RESOLVED" });
+      },
+    });
+  }
 
   function addComment(
     selectedText: string,
     htmlString: string,
     uniqueId: string,
   ) {
-    setComments((prev) => [
-      {
-        comment: "",
-        commentor: user?.data?.name,
-        selectedText,
-        htmlString,
-        uniqueId,
-        timestamp: new Date().toISOString(),
-        isResolved: false,
-        isSent: false,
+    prepend({
+      comment: "",
+      author: {
+        email: user?.data?.email,
+        name: user?.data?.name,
       },
-      ...prev,
-    ]);
+      selectedText: selectedText,
+      uniqueId: uniqueId,
+      htmlString: htmlString,
+      timestamp: new Date().toISOString(),
+      status: "UNRESOLVED",
+    });
   }
 
   return (
@@ -127,86 +175,19 @@ const CommentReview = () => {
             fieldPath="content"
             sortingControl={<div></div>}
             viewOnly={false}
-            resolvedComment={resolved}
+            // resolvedComment={resolved}
             onComment={addComment}
           />
         </div>
 
         {/* Comments List */}
         {isComment && (
-          <div
-            className={cn(
-              `bg-muted transition-all duration-200 p-4 w-full col-span-4 rounded-lg shadow-md`,
-              `overflow-y-scroll max-h-[calc(100vh-10rem)]`,
-            )}
-          >
-            <div className="w-full col-span-4 space-y-4">
-              {comments.map((comment, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "border rounded-lg p-4 space-y-2",
-                    comment.isResolved
-                      ? "border-success bg-success/10"
-                      : "border-border bg-card",
-                  )}
-                >
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      {comment.isResolved ? (
-                        <BsCheckCircle className="text-green-300" />
-                      ) : (
-                        <BsExclamationCircle className="text-yellow-300" />
-                      )}
-                      <p className="text-sm font-medium text-primary">
-                        {comment.commentor}
-                      </p>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      {formatDate(comment.timestamp, "hh:mm:ss b, dd MMM yyyy")}
-                    </p>
-                  </div>
-                  <p className="text-sm italic text-foreground">
-                    Selected:{" "}
-                    <span className="font-semibold text-accent-foreground">
-                      "{comment.selectedText}"
-                    </span>
-                  </p>
-                  <Textarea
-                    className="mt-2"
-                    value={comment.comment}
-                    placeholder="Add your comment here..."
-                    onChange={(e) => handleCommentChange(index, e.target.value)}
-                    disabled={comment.isSent}
-                  />
-                  <div className="flex flex-row-reverse">
-                    {!comment.isSent ? (
-                      <Button
-                        className="mt-2"
-                        variant={"outline"}
-                        onClick={() => sendComment(index)}
-                      >
-                        <IoIosSend />
-                        <span>Send Comment</span>
-                      </Button>
-                    ) : comment?.isResolved ? null : (
-                      <Button
-                        variant={"secondary"}
-                        className="mt-2"
-                        onClick={() => resolveComment(index)}
-                      >
-                        <VscCommentUnresolved className="text-yellow-200" />
-                        <span>
-                          Mark as resolved
-                        </span>
-                      </Button>
-                      
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <CommentList
+            comments={comments}
+            handleCommentChange={handleCommentChange}
+            resolveComment={resolveComment}
+            sendComment={sendComment}
+          />
         )}
       </div>
     </Scaffold>

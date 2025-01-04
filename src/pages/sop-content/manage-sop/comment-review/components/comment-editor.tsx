@@ -3,7 +3,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { FieldPath, FieldValues, useFormContext } from "react-hook-form";
 import { Eye, Pencil } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui";
-import { CommentItem } from "..";
+import { CommentItem } from "@/schemas/sop-content";
 
 interface Props<T extends FieldValues> {
   fieldPath: FieldPath<T>;
@@ -18,7 +18,7 @@ const CommentEditor = <T extends FieldValues>({
   fieldPath,
   viewOnly,
   onComment,
-  resolvedComment,
+  // resolvedComment,
 }: Props<T>) => {
   const { watch, setValue } = useFormContext<T>();
   const [mode, setMode] = React.useState<"edit" | "view">("edit");
@@ -30,28 +30,28 @@ const CommentEditor = <T extends FieldValues>({
     setValue(fieldPath, value as any);
   };
 
-  useEffect(() => {
-    if (resolvedComment && editorRef.current) {
-      const editor = editorRef.current;
-      const content = editor.getContent();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(content, "text/html");
+  // useEffect(() => {
+  //   if (resolvedComment && editorRef.current) {
+  //     const editor = editorRef.current;
+  //     const content = editor.getContent();
+  //     const parser = new DOMParser();
+  //     const doc = parser.parseFromString(content, "text/html");
 
-      const commentSpan = doc.querySelector(
-        `span[data-comment-id="${resolvedComment.uniqueId}"]`,
-      );
+  //     const commentSpan = doc.querySelector(
+  //       `span[data-comment-id="${resolvedComment.uniqueId}"]`,
+  //     );
 
-      if (commentSpan) {
-        commentSpan.textContent = resolvedComment.htmlString;
-        commentSpan.removeAttribute("id");
-        commentSpan.removeAttribute("data-comment-id");
-        commentSpan.removeAttribute("style");
-      }
+  //     if (commentSpan) {
+  //       commentSpan.textContent = resolvedComment.htmlString;
+  //       commentSpan.removeAttribute("id");
+  //       commentSpan.removeAttribute("data-comment-id");
+  //       commentSpan.removeAttribute("style");
+  //     }
 
-      editor.setContent(doc.body.innerHTML);
-      handleChange(doc.body.innerHTML);
-    }
-  }, [resolvedComment]);
+  //     editor.setContent(doc.body.innerHTML);
+  //     handleChange(doc.body.innerHTML);
+  //   }
+  // }, [resolvedComment]);
 
   if (typeof value === "object") {
     return (
@@ -177,10 +177,12 @@ const CommentEditor = <T extends FieldValues>({
 
                 if (text) {
                   const uniqueId = `comment-${Date.now()}`;
-                  onComment?.(text, htmlString, uniqueId);
+
                   editor.selection.setContent(
                     `<span id="comment" data-comment-id="${uniqueId}" style="background-color:yellow;">${selectedText}</span>`,
                   );
+                  // const updatedContent = editor.getContent();
+                  onComment?.(text, htmlString, uniqueId);
                 } else {
                   alert("Please select some text.");
                 }

@@ -1,6 +1,6 @@
 import { Loader } from "@/components/loader";
 import { useGetSOPById } from "@/hooks/queries/sops/useGetSOPById";
-import { SOP } from "@/schemas/sop-content";
+import { CommentItem, SOP } from "@/schemas/sop-content";
 import { DevTool } from "@hookform/devtools";
 import { ReactNode, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -21,7 +21,15 @@ const CreateSOPProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (sopId && !isPending) {
-      methods.reset({ ...data, content: data?.content ? data.content : "" });
+      methods.reset({
+        ...data,
+        content: data?.content ? data.content : "",
+        comments:
+          data?.comments?.map((ele: CommentItem) => ({
+            ...ele,
+            backendId: ele?.id,
+          })) ?? [],
+      });
     }
   }, [sopId, methods, data, isPending]);
 
