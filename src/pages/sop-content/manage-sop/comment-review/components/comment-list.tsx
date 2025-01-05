@@ -4,9 +4,14 @@ import { CommentItem } from "@/schemas/sop-content";
 
 export interface CommentLisProps {
   comments: CommentItem[];
-  handleCommentChange: (index: number, value: string) => void;
-  sendComment: (index: number) => void;
-  resolveComment: (index: number) => void;
+  sendComment?: (index: number, replyIndex?: number) => void;
+  resolveComment?: (index: number) => void;
+  handleCommentChange?: (
+    index: number,
+    value: string,
+    replyIndex?: number,
+  ) => void;
+  addReplies?: (index: number) => void;
 }
 
 const CommentList = ({
@@ -14,6 +19,7 @@ const CommentList = ({
   handleCommentChange,
   resolveComment,
   sendComment,
+  addReplies,
 }: CommentLisProps) => {
   return (
     <div
@@ -25,8 +31,11 @@ const CommentList = ({
       <div className="w-full col-span-4 space-y-4">
         {comments.map((comment, index) => (
           <CommentListItem
-            comment={comment}
+            key={comment?.backendId}
             index={index}
+            comment={comment}
+            showSelected={true}
+            addReplies={addReplies}
             handleCommentChange={handleCommentChange}
             resolveComment={resolveComment}
             sendComment={sendComment}

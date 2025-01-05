@@ -1,16 +1,14 @@
-import React, { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { FieldPath, FieldValues, useFormContext } from "react-hook-form";
 import { Eye, Pencil } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui";
-import { CommentItem } from "@/schemas/sop-content";
 
 interface Props<T extends FieldValues> {
   fieldPath: FieldPath<T>;
   sortingControl: ReactNode;
   viewOnly?: boolean;
   onComment?: (value: string, htmlString: string, uniqueId: string) => void;
-  resolvedComment?: CommentItem;
 }
 
 const CommentEditor = <T extends FieldValues>({
@@ -18,7 +16,6 @@ const CommentEditor = <T extends FieldValues>({
   fieldPath,
   viewOnly,
   onComment,
-  // resolvedComment,
 }: Props<T>) => {
   const { watch, setValue } = useFormContext<T>();
   const [mode, setMode] = React.useState<"edit" | "view">("edit");
@@ -30,28 +27,6 @@ const CommentEditor = <T extends FieldValues>({
     setValue(fieldPath, value as any);
   };
 
-  // useEffect(() => {
-  //   if (resolvedComment && editorRef.current) {
-  //     const editor = editorRef.current;
-  //     const content = editor.getContent();
-  //     const parser = new DOMParser();
-  //     const doc = parser.parseFromString(content, "text/html");
-
-  //     const commentSpan = doc.querySelector(
-  //       `span[data-comment-id="${resolvedComment.uniqueId}"]`,
-  //     );
-
-  //     if (commentSpan) {
-  //       commentSpan.textContent = resolvedComment.htmlString;
-  //       commentSpan.removeAttribute("id");
-  //       commentSpan.removeAttribute("data-comment-id");
-  //       commentSpan.removeAttribute("style");
-  //     }
-
-  //     editor.setContent(doc.body.innerHTML);
-  //     handleChange(doc.body.innerHTML);
-  //   }
-  // }, [resolvedComment]);
 
   if (typeof value === "object") {
     return (

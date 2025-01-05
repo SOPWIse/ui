@@ -9,9 +9,9 @@ async function addComment({
 }: {
   contentId: string;
   comment: string;
-  selectedText: string;
-  htmlString: string;
-  uniqueId: string;
+  selectedText?: string;
+  htmlString?: string;
+  uniqueId?: string;
   parentId?: string;
   content: string;
 }) {
