@@ -39,27 +39,40 @@ const CommentReview = () => {
   const resolve = useResolveCommentMutation();
   const isComment = comments.length > 0;
 
-  function handleCommentChange(index: number, value: string) {
+  function handleCommentChange(
+    index: number,
+    value: string,
+    replyIndex?: number,
+  ) {
+    if (replyIndex !== undefined) {
+      const pre = comments?.at(index) as CommentItem;
+      const updated = pre?.replies?.map((ele, i) => {
+        if (i === replyIndex) {
+          return { ...ele, comment: value };
+        } else {
+          return ele;
+        }
+      });
+      update(index, { ...pre, replies: updated });
+      return;
+    }
     const pre = comments?.at(index);
     update(index, { ...pre, comment: value });
   }
 
-  function sendComment(index: number) {
-    const pre = comments?.at(index) as CommentItem;
-    update(index, { ...pre, timestamp: undefined });
-
+  function callCreate(pre?: CommentItem) {
     if (!pre?.comment || !sopById?.content?.length) {
       return;
     }
     const body = {
       comment: pre.comment ?? "",
       contentId: sopById?.id ?? "",
-      htmlString: pre?.htmlString ?? "",
-      selectedText: pre?.selectedText ?? "",
-      uniqueId: pre?.uniqueId ?? "",
-      content: sopById?.content ?? "",
+      htmlString: pre?.htmlString,
+      selectedText: pre?.selectedText,
+      uniqueId: pre?.uniqueId,
+      parentId: pre?.parentId,
+      content: sopById?.content,
     };
-
     createComment.mutate(body, {
       onError: (error) => {
         handleToast({
@@ -69,6 +82,29 @@ const CommentReview = () => {
         });
       },
     });
+  }
+  
+
+  function sendComment(index: number, replyIndex?: number) {
+    const pre = comments?.at(index) as CommentItem;
+    if(replyIndex !== undefined) {
+      const updated = pre?.replies?.map((ele, i) => {
+        if (i === replyIndex) {
+          return { ...ele, timestamp: undefined };
+        } else {
+          return ele;
+        }
+      });
+      update(index, { ...pre, replies: updated });
+      const comment = pre?.replies?.at(replyIndex)
+      if(comment) {
+        comment.parentId = pre?.backendId;
+        callCreate(comment)
+      }
+      return;
+    }
+    update(index, { ...pre, timestamp: undefined });
+    callCreate(pre)
   }
 
   function resolveComment(index: number) {
@@ -89,8 +125,6 @@ const CommentReview = () => {
     const commentSpan = doc.querySelector(
       `span[data-comment-id="${pre.uniqueId}"]`,
     );
-
-    console.log({ commentSpan });
 
     if (commentSpan) {
       commentSpan.textContent = pre.htmlString as string;
@@ -140,6 +174,22 @@ const CommentReview = () => {
     });
   }
 
+  function addReplies(index: number) {
+    const pre = comments.at(index) as CommentItem;
+    const replies = pre?.replies ?? [];
+    const reply = {
+      comment: "",
+      parentId: pre?.backendId,
+      author: {
+        email: user?.data?.email,
+        name: user?.data?.name,
+      },
+      timestamp: new Date().toISOString(),
+      status: "UNRESOLVED",
+    };
+    update(index, { ...pre, replies: [reply, ...replies] });
+  }
+
   return (
     <Scaffold>
       <BreadcrumbsBar
@@ -184,6 +234,7 @@ const CommentReview = () => {
         {isComment && (
           <CommentList
             comments={comments}
+            addReplies={addReplies}
             handleCommentChange={handleCommentChange}
             resolveComment={resolveComment}
             sendComment={sendComment}
