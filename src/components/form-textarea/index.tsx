@@ -24,7 +24,7 @@ export const FormTextArea = forwardRef<
           <Label
             className={cn(
               "leading-9",
-              props.required && "after:text-red-400 after:content-['*']"
+              props.required && "after:text-red-400 after:content-['*']",
             )}
             htmlFor={props?.id}
           >

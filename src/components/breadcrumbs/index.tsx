@@ -28,7 +28,7 @@ export const BreadcrumbsBar: React.FunctionComponent<IBreadcrumbsBarProps> = ({
       className={cn(
         "fixed inset-x-0  top-14 z-10 flex h-14 w-full items-center justify-between overflow-x-auto whitespace-nowrap border-t bg-background px-8 text-sm text-foreground shadow-sm",
         open ? "ms-[14rem] w-[84%]" : "ms-[3rem] w-[97%]",
-        className
+        className,
       )}
     >
       <div className="flex items-center gap-6">
@@ -45,7 +45,7 @@ export const BreadcrumbsBar: React.FunctionComponent<IBreadcrumbsBarProps> = ({
         <div
           className={cn(
             " flex items-center gap-2",
-            isBackButtonEnabled && "border-l border-border pl-6"
+            isBackButtonEnabled && "border-l border-border pl-6",
           )}
         >
           {path?.map((item, i) => (
@@ -53,7 +53,7 @@ export const BreadcrumbsBar: React.FunctionComponent<IBreadcrumbsBarProps> = ({
               <div
                 className={cn(
                   "text-foreground",
-                  i === path.length - 1 && "text-foreground"
+                  i === path.length - 1 && "text-foreground",
                 )}
               >
                 {typeof item === "string" ? (

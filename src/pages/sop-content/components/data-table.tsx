@@ -54,9 +54,15 @@ export function SOPsTable() {
     search: searchText,
     sortBy: sorting[0]?.id,
     // TODO : SEARCH BY ROLE CURRENTLY NOT SUPPORTED BY BACKEND (SINCE ITS AN ENUM)
-    searchFields: ["title", "status", "category"],
+    searchFields: ["title", "status", "category", "status", "author.name"],
     sortOrder: sorting[0]?.desc ? "desc" : "asc",
+    // @ts-ignore
+    status:
+      columnFilters?.filter((filter) => filter.id === "status").at(0)?.value ??
+      undefined,
   });
+
+  console.log("sopsQuery", columnFilters);
 
   React.useEffect(() => {
     if (sopsQuery.isError) {

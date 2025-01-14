@@ -27,8 +27,8 @@ function Tab({ option, selected, isFirst, isLast, onChange }: TabValProps) {
       ? `rounded-t-lg  dark:border-gray-400 dark:text-gray-50
       text-blue-900 bg-blue-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500
       ${isFirst ? "rounded-s-none border-l-0 " : ""} ${
-          isLast ? "rounded-e-none border-r-0" : ""
-        }`
+        isLast ? "rounded-e-none border-r-0" : ""
+      }`
       : " dark:text-gray-400 hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
   }`);
 

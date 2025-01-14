@@ -47,9 +47,7 @@ const useDataTable = () => {
   }
 
   function setPagination(page: PaginationState): void {
-    
-          updateState({ page: page?.pageIndex + 1, pageSize: page?.pageSize });
-        
+    updateState({ page: page?.pageIndex + 1, pageSize: page?.pageSize });
   }
 
   return {
@@ -63,7 +61,7 @@ const useDataTable = () => {
     resetState,
     updateState,
     setSorting,
-    setPagination
+    setPagination,
   };
 };
 

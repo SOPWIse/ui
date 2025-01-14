@@ -56,7 +56,7 @@ const EditUserDetails = () => {
               message: "Error Updating User",
             });
           },
-        }
+        },
       );
     }
   };

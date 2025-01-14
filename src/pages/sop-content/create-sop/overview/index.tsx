@@ -53,7 +53,7 @@ const SOPOverview = () => {
               description: "An error occurred while updating the SOP",
             });
           },
-        }
+        },
       );
     } else {
       createSOP.mutate(data, {

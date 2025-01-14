@@ -4,6 +4,7 @@ import { createPaginatedResponseSchema } from "@/schemas/common";
 import { sopSchema } from "@/schemas/sop-content";
 import { z } from "zod";
 import { api } from "@/interceptor/api";
+import qs from "qs";
 
 type GetAllSOPsParams = {
   page?: number;
@@ -44,6 +45,10 @@ export const useInfiniteSOPsQuery = ({
           sortOrder,
           search,
           searchFields,
+        },
+        paramsSerializer: {
+          serialize: (params) =>
+            qs.stringify(params, { arrayFormat: "repeat" }),
         },
       });
       // PUT ZOD PARSE HERE LATER ONCE THE SCHEMA GETS FIXED

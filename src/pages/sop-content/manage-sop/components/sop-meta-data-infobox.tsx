@@ -26,7 +26,7 @@ const SOPMetaData = ({ className }: SOPMetaDataProps) => {
   const { id } = useParams();
   const { data: sopData, isPending: issopDataLoading } = useGetSOPById(id);
   const { data: userData, isPending: isUserDataLoading } = useGetUserById(
-    sopData.author.id
+    sopData.author.id,
   );
 
   const isPending = issopDataLoading || isUserDataLoading;
@@ -66,7 +66,7 @@ const SOPMetaData = ({ className }: SOPMetaDataProps) => {
       className={cn(
         "w-full relative overflow-hidden rounded-lg space-y-2 h-max bg-card text-card-foreground",
         "hidden w-full flex-col justify-between border border-border bg-background/20 sm:flex break-inside-avoid transition-all bg-gradient-to-tr from-transparent via-transparent to-[rgb(32,128,141,0.1)]",
-        className
+        className,
       )}
     >
       <CardHeader className="pb-2">

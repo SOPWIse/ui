@@ -8,7 +8,7 @@ interface StepperContextValue {
 }
 
 export const StepperContext = createContext<StepperContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 export function useStepperContext() {

@@ -4,7 +4,7 @@ export function Background() {
   return (
     <div
       className={cn(
-        "w-full -z-50 h-screen fixed top-0 right-0 left-0 dark:bg-grid-small-white/[0.2] bg-grid-small-black/[0.1] flex items-center justify-center"
+        "w-full -z-50 h-screen fixed top-0 right-0 left-0 dark:bg-grid-small-white/[0.2] bg-grid-small-black/[0.1] flex items-center justify-center",
       )}
     >
       {/* Radial gradient for the container to give a faded look */}

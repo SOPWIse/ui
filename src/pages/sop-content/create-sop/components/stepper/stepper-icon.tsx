@@ -23,7 +23,7 @@ export function StepperIcon({ step, icon, className }: StepperIconProps) {
           "border-blue-600 bg-white text-blue-600": active && !completed,
           "border-gray-300 bg-white text-gray-500": !active && !completed,
         },
-        className
+        className,
       )}
     >
       {completed ? (
