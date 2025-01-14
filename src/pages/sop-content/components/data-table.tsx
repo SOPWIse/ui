@@ -31,7 +31,7 @@ export function SOPsTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
+    []
   );
 
   const [sorting, setSorting] = React.useState<SortingState>([
@@ -54,9 +54,15 @@ export function SOPsTable() {
     search: searchText,
     sortBy: sorting[0]?.id,
     // TODO : SEARCH BY ROLE CURRENTLY NOT SUPPORTED BY BACKEND (SINCE ITS AN ENUM)
-    searchFields: ["title", "status", "category"],
+    searchFields: ["title", "status", "category", "status", "author.name"],
     sortOrder: sorting[0]?.desc ? "desc" : "asc",
+    // @ts-ignore
+    status:
+      columnFilters?.filter((filter) => filter.id === "status").at(0)?.value ??
+      undefined,
   });
+
+  console.log("sopsQuery", columnFilters);
 
   React.useEffect(() => {
     if (sopsQuery.isError) {
@@ -118,7 +124,7 @@ export function SOPsTable() {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -138,7 +144,7 @@ export function SOPsTable() {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}

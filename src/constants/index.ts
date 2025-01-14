@@ -36,15 +36,15 @@ export const experimentData = {
         { item: "Closed-toe shoes", type: "checkbox" },
         { item: "Lab coat", type: "checkbox" },
         {
+          item: "BD Leucocount™ Controls (Catalog Nos. 341001, 341002, 341003) or equivalent",
+          type: "checkbox",
+        },
+        {
           item: "BD Leucocount™ reagent (Catalog No. 340523)",
           type: "checkbox",
         },
         {
           item: "Leucoreduced blood products less than 48 hours old",
-          type: "checkbox",
-        },
-        {
-          item: "BD Leucocount™ Controls (Catalog Nos. 341001, 341002, 341003) or equivalent",
           type: "checkbox",
         },
       ],

@@ -20,7 +20,7 @@ const Home = () => {
       sortBy: "createdAt",
       sortOrder: "desc",
       search: searchParams.get("title") || undefined,
-      searchFields: ["title", "status", "category"],
+      searchFields: ["title", "status", "category", "author.name"],
     });
   const { ref, inView } = useInView();
 

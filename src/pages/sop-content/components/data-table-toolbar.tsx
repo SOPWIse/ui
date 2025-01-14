@@ -45,11 +45,11 @@ export function DataTableToolbar<TData>({
           sorting={"asc"}
           limit={10}
         /> */}
-        {/* {table.getColumn("role") && (
+        {/* {table.getColumn("status") && (
           <DataTableFacetedFilter
-            column={table.getColumn("role")}
-            title="Role"
-            options={Roles}
+            column={table.getColumn("status")}
+            title="Status"
+            options={Status}
           />
         )} */}
         {/* {table.getColumn("priority") && (
