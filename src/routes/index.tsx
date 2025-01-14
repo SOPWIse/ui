@@ -18,6 +18,7 @@ const User = lazy(() => import("@/pages/user-management"));
 const SOPContent = lazy(() => import("@/pages/sop-content"));
 
 const SignUp = lazy(() => import("@/pages/auth/sign-up"));
+const ViewingModule = lazy(() => import("@/pages/sop-content/viewing-module"));
 
 const masterRoutes = [
   {
@@ -33,6 +34,11 @@ const masterRoutes = [
   {
     path: "/sop-content/*",
     element: <SOPContent />,
+    permission: "*",
+  },
+  {
+    path: "/viewing/*",
+    element: <ViewingModule />,
     permission: "*",
   },
 ];

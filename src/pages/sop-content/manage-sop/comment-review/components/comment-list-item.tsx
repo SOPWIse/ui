@@ -32,10 +32,9 @@ const CommentListItem = ({
       className={cn(
         "border rounded-lg p-4 space-y-2 border-border",
         isReply ? null : "bg-card"
-        
       )}
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           {!isReply && (
             <div>
@@ -53,7 +52,7 @@ const CommentListItem = ({
         <p className="text-xs text-muted-foreground">
           {formatDate(
             `${comment?.createdAt ?? new Date().toISOString()}`,
-            "hh:mm:ss b, dd MMM yyyy",
+            "hh:mm:ss b, dd MMM yyyy"
           )}
         </p>
       </div>
@@ -105,28 +104,30 @@ const CommentListItem = ({
         )}
       </div>
 
-      {(comment?.replies ?? [])?.length > 0 &&<div
-        className={cn(
-          `transition-all duration-200 p-4 w-full col-span-4 rounded-lg`,
-          `overflow-y-scroll`,
-        )}
-      >
-        <div className="w-full col-span-4 space-y-4">
-          {comment?.replies?.map((ele, replyIndex) => (
-            <CommentListItem
-              key={ele?.backendId}
-              index={replyIndex}
-              comment={ele}
-              showSelected={false}
-              addReplies={addReplies}
-              handleCommentChange={(i, value) => {
-                handleCommentChange?.(index, value, i);
-              }}
-              sendComment={(i) => sendComment?.(index, i)}
-            />
-          ))}
+      {(comment?.replies ?? [])?.length > 0 && (
+        <div
+          className={cn(
+            `transition-all duration-200 p-4 w-full col-span-4 rounded-lg`,
+            `overflow-y-scroll`
+          )}
+        >
+          <div className="w-full col-span-4 space-y-4">
+            {comment?.replies?.map((ele, replyIndex) => (
+              <CommentListItem
+                key={ele?.backendId}
+                index={replyIndex}
+                comment={ele}
+                showSelected={false}
+                addReplies={addReplies}
+                handleCommentChange={(i, value) => {
+                  handleCommentChange?.(index, value, i);
+                }}
+                sendComment={(i) => sendComment?.(index, i)}
+              />
+            ))}
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 };

@@ -45,6 +45,10 @@ const data = {
           title: "Dashboard",
           url: "/home",
         },
+        {
+          title: "Viewing Module Playground",
+          url: "/viewing",
+        },
       ],
     },
     {

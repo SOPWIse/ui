@@ -20,7 +20,6 @@ import { useResolveCommentMutation } from "@/hooks/mutations/sops/useResolveComm
 const CommentReview = () => {
   const { control } = useFormContext<SOP>();
   const navigate = useNavigate();
-
   const sopById = useWatch({
     control,
   });
@@ -42,7 +41,7 @@ const CommentReview = () => {
   function handleCommentChange(
     index: number,
     value: string,
-    replyIndex?: number,
+    replyIndex?: number
   ) {
     if (replyIndex !== undefined) {
       const pre = comments?.at(index) as CommentItem;
@@ -83,11 +82,10 @@ const CommentReview = () => {
       },
     });
   }
-  
 
   function sendComment(index: number, replyIndex?: number) {
     const pre = comments?.at(index) as CommentItem;
-    if(replyIndex !== undefined) {
+    if (replyIndex !== undefined) {
       const updated = pre?.replies?.map((ele, i) => {
         if (i === replyIndex) {
           return { ...ele, timestamp: undefined };
@@ -96,15 +94,15 @@ const CommentReview = () => {
         }
       });
       update(index, { ...pre, replies: updated });
-      const comment = pre?.replies?.at(replyIndex)
-      if(comment) {
+      const comment = pre?.replies?.at(replyIndex);
+      if (comment) {
         comment.parentId = pre?.backendId;
-        callCreate(comment)
+        callCreate(comment);
       }
       return;
     }
     update(index, { ...pre, timestamp: undefined });
-    callCreate(pre)
+    callCreate(pre);
   }
 
   function resolveComment(index: number) {
@@ -123,7 +121,7 @@ const CommentReview = () => {
     const doc = parser.parseFromString(content, "text/html");
 
     const commentSpan = doc.querySelector(
-      `span[data-comment-id="${pre.uniqueId}"]`,
+      `span[data-comment-id="${pre.uniqueId}"]`
     );
 
     if (commentSpan) {
@@ -158,7 +156,7 @@ const CommentReview = () => {
   function addComment(
     selectedText: string,
     htmlString: string,
-    uniqueId: string,
+    uniqueId: string
   ) {
     prepend({
       comment: "",
@@ -218,7 +216,7 @@ const CommentReview = () => {
         <div
           className={cn(
             `bg-sidebar transition-all duration-200`,
-            isComment ? "col-span-8" : "col-span-full",
+            isComment ? "col-span-8" : "col-span-full"
           )}
         >
           <CommentEditor
