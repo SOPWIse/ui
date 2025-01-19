@@ -19,7 +19,7 @@ export function SOPCard({
     <div
       className="relative w-full max-w-xs group/card"
       onClick={() => {
-        navigate(`/sop-content/details/${sop.id}`);
+        navigate(`/view/${sop.id}`);
       }}
       ref={innerRef}
     >
@@ -33,7 +33,7 @@ export function SOPCard({
       ></div>
       <div
         className={cn(
-          " cursor-pointer overflow-hidden relative card h-96 rounded-lg shadow-xl  max-w-sm mx-auto backgroundImage flex flex-col justify-between p-2 bg-black",
+          " cursor-pointer overflow-hidden relative card h-96 rounded-lg shadow-xl  max-w-sm mx-auto backgroundImage flex flex-col justify-between p-2 bg-black"
         )}
       >
         <img
@@ -81,7 +81,7 @@ export function SOPCard({
                 ].icon,
                 {
                   className: "w-4",
-                },
+                }
               )}
               <p className="text-[8px]">{upperCase(sop.status)}</p>
             </Badge>

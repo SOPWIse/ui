@@ -37,7 +37,7 @@ const masterRoutes = [
     permission: "*",
   },
   {
-    path: "/viewing/*",
+    path: "/view/*",
     element: <ViewingModule />,
     permission: "*",
   },
