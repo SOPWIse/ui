@@ -1,9 +1,54 @@
 import React, { ReactNode } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import { Editor as TextEditor } from "@tinymce/tinymce-react";
 import { FieldPath, FieldValues, useFormContext } from "react-hook-form";
 import RichTextView from "../rich-text-view";
 import { ToggleGroup, ToggleGroupItem } from "../ui";
 import { Eye, Pencil } from "lucide-react";
+
+function insertTitleSection(editor: any) {
+  editor.insertContent(`
+    <div class="title-section" data-id="title-section" style="text-align: center; margin: 20px 0;">
+      <h1 style="font-size: 2rem; font-weight: bold;">Your Title Here</h1>
+      <p style="font-size: 1rem; color: #666;">Subtitle or Description Here</p>
+    </div>
+  `);
+}
+
+function insertInputField(editor: any) {
+  editor.insertContent(`
+    <input type="text" data-id="input-field" placeholder="Enter text here" 
+      style="width: 20%; padding: 8px; margin: 8px 0;">
+  `);
+}
+
+function insertCheckbox(editor: any) {
+  editor.insertContent(`
+    <label data-id="checkbox">
+      <input type="checkbox" style="margin-right: 5px;"> Check this box
+    </label>
+  `);
+}
+
+function insertRadioButton(editor: any) {
+  editor.insertContent(`
+    <label data-id="radio-button">
+      <input type="radio" name="options" style="margin-right: 5px;"> Radio Option
+    </label>
+  `);
+}
+
+function insertTextArea(editor: any) {
+  editor.insertContent(`
+    <textarea rows="4" cols="50" data-id="text-area" 
+      placeholder="Enter your text here" style="width: 20%; padding: 8px; margin: 8px 0;">
+    </textarea>
+  `);
+}
+
+
+
+
+
 
 interface Props<T extends FieldValues> {
   fieldPath: FieldPath<T>;
@@ -66,7 +111,7 @@ const RichTextEditor = <T extends FieldValues>({
       <>
         {mode === "edit" ? (
           <>
-            <Editor
+            <TextEditor
               disabled={viewOnly}
               apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
               onEditorChange={(value) => handleChange(value)}
@@ -96,7 +141,6 @@ const RichTextEditor = <T extends FieldValues>({
                   "image",
                   "link",
                   "media",
-
                   "codesample",
                   "table",
                   "charmap",
@@ -119,7 +163,7 @@ const RichTextEditor = <T extends FieldValues>({
                   "bold italic | blocks | quicklink blockquote | customItem",
                 // quickbars_selection_toolbar: "bold italic underline customItem",
                 toolbar:
-                  "undo redo | bold italic underline strikethrough | bullist numlist | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                  "undo redo | bold italic underline strikethrough | bullist numlist | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl | insertTitleButton | insertFormComponents",
                 content_style:
                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 setup: (editor) => {
@@ -130,17 +174,62 @@ const RichTextEditor = <T extends FieldValues>({
                       const selectedText = editor.selection.getContent();
                       console.log(
                         editor?.selection?.getNode()?.nodeName,
-                        "<><><><><>"
+                        "<><><><><>",
                       );
                       console.log("Selected text", selectedText);
                       if (selectedText) {
                         // Apply custom logic here, e.g., wrap text in a custom span
                         editor.selection.setContent(
-                          `<span style="background-color:red;color:white">${selectedText}</span>`
+                          `<span style="background-color:red;color:white">${selectedText}</span>`,
                         );
                       } else {
                         alert("Please select some text.");
                       }
+                    },
+                  });
+
+                  editor.ui.registry.addMenuButton("insertFormComponents", {
+                    text: "Components",
+                    icon: "addtag",
+                    fetch: function (callback) {
+                      const items = [
+                        {
+                          type: "menuitem",
+                          text: "Insert Title",
+                          onAction: function () {
+                            insertTitleSection(editor)
+                          }
+                        },
+                        {
+                          type: "menuitem",
+                          text: "Input Field",
+                          onAction: function () {
+                            insertInputField(editor);
+                          },
+                        },
+                        {
+                          type: "menuitem",
+                          text: "Checkbox",
+                          onAction: function () {
+                            insertCheckbox(editor);
+                          },
+                        },
+                        {
+                          type: "menuitem",
+                          text: "Radio Button",
+                          onAction: function () {
+                            insertRadioButton(editor);
+                          },
+                        },
+                        {
+                          type: "menuitem",
+                          text: "Text Area",
+                          onAction: function () {
+                            insertTextArea(editor);
+                          },
+                        }
+                      ];
+                      callback(items);
                     },
                   });
                 },

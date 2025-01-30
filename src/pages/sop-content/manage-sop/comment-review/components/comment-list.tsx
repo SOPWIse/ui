@@ -9,7 +9,7 @@ export interface CommentLisProps {
   handleCommentChange?: (
     index: number,
     value: string,
-    replyIndex?: number
+    replyIndex?: number,
   ) => void;
   addReplies?: (index: number) => void;
 }
@@ -25,7 +25,7 @@ const CommentList = ({
     <div
       className={cn(
         `bg-muted transition-all duration-200 p-4 w-full col-span-4 rounded-lg shadow-md`,
-        `overflow-y-scroll max-h-[calc(100vh-10rem)]`
+        `overflow-y-scroll max-h-[calc(100vh-10rem)]`,
       )}
     >
       <div className="w-full col-span-4 space-y-4">

@@ -71,7 +71,7 @@ export function ExperimentFlow({ data }: { data: ExperimentData }) {
     (currentSectionData.content as Content[])
       .filter((item) => item.type === "checkbox")
       .every(
-        (item) => checkboxValues[convertToHookFormKeyable(item?.item!) || ""]
+        (item) => checkboxValues[convertToHookFormKeyable(item?.item!) || ""],
       );
   console.log("checkboxValues", checkboxValues);
 

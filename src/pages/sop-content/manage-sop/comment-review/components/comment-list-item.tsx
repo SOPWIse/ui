@@ -31,7 +31,7 @@ const CommentListItem = ({
       key={index}
       className={cn(
         "border rounded-lg p-4 space-y-2 border-border",
-        isReply ? null : "bg-card"
+        isReply ? null : "bg-card",
       )}
     >
       <div className="flex items-center justify-between">
@@ -52,7 +52,7 @@ const CommentListItem = ({
         <p className="text-xs text-muted-foreground">
           {formatDate(
             `${comment?.createdAt ?? new Date().toISOString()}`,
-            "hh:mm:ss b, dd MMM yyyy"
+            "hh:mm:ss b, dd MMM yyyy",
           )}
         </p>
       </div>
@@ -108,7 +108,7 @@ const CommentListItem = ({
         <div
           className={cn(
             `transition-all duration-200 p-4 w-full col-span-4 rounded-lg`,
-            `overflow-y-scroll`
+            `overflow-y-scroll`,
           )}
         >
           <div className="w-full col-span-4 space-y-4">
