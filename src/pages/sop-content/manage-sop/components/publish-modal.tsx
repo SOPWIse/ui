@@ -43,8 +43,8 @@ const PublishModal = () => {
       open={open}
       onOpenChange={setOpen}
       className="flex flex-col gap-2"
-      title="Approve Form Submission"
-      description="Are you sure you want to approve the form submission?"
+      title="Send for Review"
+      description="Are you sure you want to send this SOP for review?"
       disableClose={publishMutation.isPending}
       trigger={
         <Button
@@ -53,7 +53,7 @@ const PublishModal = () => {
           disabled={publishMutation.isPending || sopData.status === "PUBLISHED"}
         >
           <div className="flex items-center gap-2">
-            <span>Send for Approval (Publish)</span>
+            <span>Send for Review</span>
             <ListCheck className="w-4 h-auto fill-green-900 dark:fill-green-300" />
           </div>
         </Button>

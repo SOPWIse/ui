@@ -1,10 +1,18 @@
-export const ChemistrySVG = () => (
+import { cn } from "@/lib/utils";
+
+export const ChemistrySVG = ({
+  w = 20,
+  h = 20,
+}: {
+  w?: number;
+  h?: number;
+}) => (
   <svg
     version="1.1"
     id="Layer_1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"
-    className="w-20 h-20"
+    className={cn("w-20 h-20", w && `w-${w}`, h && `h-${h}`)}
   >
     <circle style={{ fill: "#E16B5A" }} cx="256" cy="256" r="256" />
     <path
