@@ -27,7 +27,6 @@ const CommentEditor = <T extends FieldValues>({
     setValue(fieldPath, value as any);
   };
 
-
   if (typeof value === "object") {
     return (
       <div className="relative p-4 text-center border border-red-200 bg-red-50">
@@ -154,7 +153,7 @@ const CommentEditor = <T extends FieldValues>({
                   const uniqueId = `comment-${Date.now()}`;
 
                   editor.selection.setContent(
-                    `<span id="comment" data-comment-id="${uniqueId}" style="background-color:yellow;">${selectedText}</span>`,
+                    `<span id="comment" data-comment-id="${uniqueId}" style="background-color:yellow;">${selectedText}</span>`
                   );
                   // const updatedContent = editor.getContent();
                   onComment?.(text, htmlString, uniqueId);

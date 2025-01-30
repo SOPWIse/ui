@@ -84,7 +84,10 @@ const Dashboard = () => {
               );
             })
           ) : (
-            <PlaceholderBox className="h-96" text="Not Available" />
+            <PlaceholderBox
+              className="min-w-full h-96 col-span-full"
+              text="Not Available"
+            />
           )}
           {isFetchingNextPage &&
             Array(10)

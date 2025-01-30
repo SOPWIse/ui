@@ -7,13 +7,20 @@ import SectionHeader from "./section-header";
 import ProgressBar from "./progress-bar";
 import SectionContent from "./section-content";
 import NavigationButtons from "./navigation-buttons";
-import { convertToHookFormKeyable } from "@/lib/utils";
+import { cn, convertToHookFormKeyable } from "@/lib/utils";
 import { BreadcrumbsBar } from "@/components/breadcrumbs";
 import { TimeTracker } from "./time-tracker";
 import ProfileSwitcher from "./profile-switcher";
 import { Button } from "@/components/button";
 import { SaveAll } from "lucide-react";
 import { CompletedStepsTimeline } from "./completed-steps";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui";
+import { useState } from "react";
+import { ChemistrySVG } from "../../manage-sop/components/chemistry-svg";
 
 interface Step {
   step?: number;
@@ -50,6 +57,7 @@ export function ExperimentFlow({ data }: { data: ExperimentData }) {
   const methods = useForm<FormValues>();
   const { handleSubmit, watch } = methods;
   const navigate = useNavigate();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const currentSectionData = data.sections[currentSection];
 
@@ -104,44 +112,79 @@ export function ExperimentFlow({ data }: { data: ExperimentData }) {
           </div>
         }
       />
-      <div className="flex gap-4">
-        <CompletedStepsTimeline
-          items={data.sections.slice(0, currentSection) as any}
-          onStepClick={(index) => setSearchParams({ step: index.toString() })}
-        />
-        <Card className="w-full mt-8 border shadow-none">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center text-primary">
-              {data.title}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <SectionHeader
-              title={currentSectionData?.section_title}
-              currentStep={currentSection + 1}
-              totalSteps={data.sections.length}
+      <div className="flex">
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="items-stretch h-full"
+        >
+          <ResizablePanel
+            defaultSize={20}
+            collapsedSize={0}
+            collapsible={true}
+            minSize={0}
+            maxSize={20}
+            onCollapse={() => {
+              setIsCollapsed(true);
+              document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+                true
+              )}`;
+            }}
+            onResize={() => {
+              setIsCollapsed(false);
+              document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+                false
+              )}`;
+            }}
+            className={cn(
+              isCollapsed &&
+                "min-w-[50px] transition-all duration-300 ease-in-out"
+            )}
+          >
+            <CompletedStepsTimeline
+              items={data.sections.slice(0, currentSection + 1) as any}
+              onStepClick={(index) =>
+                setSearchParams({ step: index.toString() })
+              }
             />
-            <ProgressBar
-              currentStep={currentSection + 1}
-              totalSteps={data.sections.length}
-            />
-            <div className="mt-2 mb-4"></div>
-            <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <ScrollArea className="h-[400px] pr-4">
-                  <SectionContent content={currentSectionData?.content} />
-                </ScrollArea>
-                <NavigationButtons
-                  currentSection={currentSection}
-                  totalSections={data.sections.length}
-                  onPrevious={handlePrevious}
-                  onNext={handleNext}
-                  disableNext={!allCheckboxesChecked && isCheckboxSection}
+          </ResizablePanel>
+          <ResizableHandle className="mt-10 h-[75vh]" />
+          <ResizablePanel defaultSize={20} minSize={10}>
+            <Card className="w-full mt-8 border shadow-none">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-center gap-4 text-2xl font-bold text-center text-primary">
+                  <ChemistrySVG h={12} w={12} />
+                  {data.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SectionHeader
+                  title={currentSectionData?.section_title}
+                  currentStep={currentSection + 1}
+                  totalSteps={data.sections.length}
                 />
-              </form>
-            </FormProvider>
-          </CardContent>
-        </Card>
+                <ProgressBar
+                  currentStep={currentSection + 1}
+                  totalSteps={data.sections.length}
+                />
+                <div className="mt-2 mb-4"></div>
+                <FormProvider {...methods}>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <ScrollArea className="h-[400px] pr-4">
+                      <SectionContent content={currentSectionData?.content} />
+                    </ScrollArea>
+                    <NavigationButtons
+                      currentSection={currentSection}
+                      totalSections={data.sections.length}
+                      onPrevious={handlePrevious}
+                      onNext={handleNext}
+                      disableNext={!allCheckboxesChecked && isCheckboxSection}
+                    />
+                  </form>
+                </FormProvider>
+              </CardContent>
+            </Card>
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </div>
       <DevTool control={methods.control} />
     </div>

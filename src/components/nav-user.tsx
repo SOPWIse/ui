@@ -51,12 +51,12 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="w-8 h-8 rounded-lg">
-                <AvatarImage src={imgSrc} alt={userData.name} />
+                <AvatarImage src={imgSrc} alt={userData?.name} />
                 <AvatarFallback className="rounded-lg">A</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-sm leading-tight text-left">
-                <span className="font-semibold truncate">{userData.name}</span>
-                <span className="text-xs truncate">{userData.email}</span>
+                <span className="font-semibold truncate">{userData?.name}</span>
+                <span className="text-xs truncate">{userData?.email}</span>
               </div>
               <CaretSortIcon className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -75,9 +75,9 @@ export function NavUser() {
                 </Avatar>
                 <div className="grid flex-1 text-sm leading-tight text-left">
                   <span className="font-semibold truncate">
-                    {userData.name}
+                    {userData?.name}
                   </span>
-                  <span className="text-xs truncate">{userData.email}</span>
+                  <span className="text-xs truncate">{userData?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
