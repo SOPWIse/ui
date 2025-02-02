@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "../ui/scroll-area";
 import { Outlet } from "react-router-dom";
-import Navbar from "../navbar";
+import Navbar from "@/components/navbar";
 
 const Layout = () => {
   return (
     <ScrollArea
       className={cn(
-        "min-h-[100vh] min-w-[100vw] overflow-y-scroll overflow-x-hidden",
+        "min-h-[100vh] min-w-[100vw] overflow-y-scroll overflow-x-hidden"
       )}
     >
       <Navbar />
