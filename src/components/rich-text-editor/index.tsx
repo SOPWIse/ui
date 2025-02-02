@@ -45,11 +45,6 @@ function insertTextArea(editor: any) {
   `);
 }
 
-
-
-
-
-
 interface Props<T extends FieldValues> {
   fieldPath: FieldPath<T>;
   sortingControl: ReactNode;
@@ -174,13 +169,13 @@ const RichTextEditor = <T extends FieldValues>({
                       const selectedText = editor.selection.getContent();
                       console.log(
                         editor?.selection?.getNode()?.nodeName,
-                        "<><><><><>",
+                        "<><><><><>"
                       );
                       console.log("Selected text", selectedText);
                       if (selectedText) {
                         // Apply custom logic here, e.g., wrap text in a custom span
                         editor.selection.setContent(
-                          `<span style="background-color:red;color:white">${selectedText}</span>`,
+                          `<span style="background-color:red;color:white">${selectedText}</span>`
                         );
                       } else {
                         alert("Please select some text.");
@@ -197,8 +192,8 @@ const RichTextEditor = <T extends FieldValues>({
                           type: "menuitem",
                           text: "Insert Title",
                           onAction: function () {
-                            insertTitleSection(editor)
-                          }
+                            insertTitleSection(editor);
+                          },
                         },
                         {
                           type: "menuitem",
@@ -227,9 +222,9 @@ const RichTextEditor = <T extends FieldValues>({
                           onAction: function () {
                             insertTextArea(editor);
                           },
-                        }
+                        },
                       ];
-                      callback(items);
+                      callback(items as any);
                     },
                   });
                 },
