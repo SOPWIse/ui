@@ -17,7 +17,7 @@ const BasicInformation = () => {
         placeholder="Enter SOP Name..."
         label="SOP Name"
         tooltipContent="Enter the name of the SOP"
-        value={watch("title")}
+        value={watch("title") as string}
       />
       <FormTextArea
         id="sop-description"
@@ -25,7 +25,7 @@ const BasicInformation = () => {
         error={errors.description?.message}
         placeholder="Enter SOP Description..."
         className="min-h-56"
-        value={watch("description")}
+        value={watch("description") as string}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
