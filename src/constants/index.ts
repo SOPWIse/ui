@@ -1,5 +1,8 @@
 // export const BASE_URL = "http://localhost:3000";
-export const BASE_URL = "http://127.0.0.1:3000";
+
+import { BASE_PROD_URL, isDev } from "@/utils";
+
+export const BASE_URL = isDev ? "http://localhost:3000" : BASE_PROD_URL;
 
 export const experimentData = {
   title:
