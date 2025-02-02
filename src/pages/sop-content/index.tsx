@@ -6,6 +6,7 @@ import Content from "./create-sop/content";
 import Review from "./create-sop/review";
 import CreateSOPProvider from "./create-sop/components/create-sop-provider";
 import ManageSOP from "./manage-sop";
+import CommentReview from "./manage-sop/comment-review";
 
 const SOPContent = () => {
   return (
@@ -17,6 +18,15 @@ const SOPContent = () => {
         element={
           <CreateSOPProvider>
             <ManageSOP />
+          </CreateSOPProvider>
+        }
+      />
+
+      <Route
+        path="comment/:id/*"
+        element={
+          <CreateSOPProvider>
+            <CommentReview />
           </CreateSOPProvider>
         }
       />

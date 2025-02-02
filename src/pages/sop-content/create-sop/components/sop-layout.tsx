@@ -22,7 +22,7 @@ const SOPLayout = () => {
   const activeStep = useMemo(() => {
     const lastSegment = pathname.split("/").filter(Boolean).pop(); // Get the last part of the path
     const currentStep = SOP_CREATION_STEPS.find(
-      ({ step }) => step === lastSegment
+      ({ step }) => step === lastSegment,
     );
     return currentStep ? currentStep.index : -1;
   }, [pathname]);
@@ -56,7 +56,7 @@ const SOPLayout = () => {
                             </StepperDescription>
                           </div>
                         </StepperItem>
-                      )
+                      ),
                     )}
                   </Stepper>
                 </div>

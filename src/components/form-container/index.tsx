@@ -19,7 +19,7 @@ const FormContainer = ({
     <form
       className={cn(
         "mb-10 flex h-max w-full flex-col items-start gap-4 rounded-md bg-background p-8",
-        className
+        className,
       )}
       {...props}
     >

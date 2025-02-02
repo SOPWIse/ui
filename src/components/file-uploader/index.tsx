@@ -109,9 +109,7 @@ const Dropzone = ({
   ...props
 }: DropzoneProps) => {
   const fileUpload = useUploadFileMutation();
-  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>(
-    {}
-  );
+  const [, setUploadProgress] = useState<Record<string, number>>({});
 
   const handleFileUpload = async (file: File) => {
     try {

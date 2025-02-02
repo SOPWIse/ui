@@ -15,7 +15,7 @@ type GetAllUsersParams = {
 };
 
 const getAllUsers = async (
-  params?: GetAllUsersParams
+  params?: GetAllUsersParams,
 ): Promise<AllUserResponse> => {
   const response = await api.get("/user/all", {
     params: {

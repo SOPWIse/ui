@@ -4,6 +4,8 @@ import { useTheme } from "./context/ThemeProvider";
 import { PrivateRoutes, PublicRoutes } from "./routes";
 import { Loader } from "./components/loader";
 import useAuthStatus from "./hooks/queries/user/useAuthStatus";
+import { Suspense } from "react";
+import SmoothTransition from "./components/smooth-transition";
 
 function App() {
   const { theme } = useTheme();
@@ -13,10 +15,14 @@ function App() {
   if (isLoading) return <Loader />;
 
   return (
-    <>
-      {isLoggedIn ? <PrivateRoutes /> : <PublicRoutes />}
-      <Toaster theme={theme} />
-    </>
+    <Suspense fallback={<Loader />}>
+      <>
+        <SmoothTransition>
+          {isLoggedIn ? <PrivateRoutes /> : <PublicRoutes />}
+        </SmoothTransition>
+        <Toaster theme={theme} />
+      </>
+    </Suspense>
   );
 }
 

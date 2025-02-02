@@ -27,25 +27,28 @@ const SignUp = () => {
   const registerMutation = useRegisterMutation();
 
   const onSubmit = (data: RegisterInput) => {
-    registerMutation.mutate(data, {
-      onSuccess: () => {
-        handleToast({
-          message: "Registeration successful",
-          type: "success",
-          description: "Please proceed for login with same credentials",
-        });
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      },
-      onError: (error) => {
-        handleToast({
-          error,
-          message: "Error while registeration",
-          type: "error",
-        });
-      },
-    });
+    registerMutation.mutate(
+      { ...data, role: "ADMIN" },
+      {
+        onSuccess: () => {
+          handleToast({
+            message: "Registeration successful",
+            type: "success",
+            description: "Please proceed for login with same credentials",
+          });
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        },
+        onError: (error) => {
+          handleToast({
+            error,
+            message: "Error while registeration",
+            type: "error",
+          });
+        },
+      }
+    );
   };
 
   return (
@@ -107,7 +110,7 @@ const SignUp = () => {
           >
             Sign Up
           </Button>
-          <div className="flex space-x-2 w-full self-center">
+          <div className="flex self-center w-full space-x-2">
             <SignedOut>
               <SignInButton
                 children={

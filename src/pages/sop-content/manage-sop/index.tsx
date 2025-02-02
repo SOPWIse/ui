@@ -56,7 +56,7 @@ const ManageSOP = () => {
         <div className="col-span-8 bg-sidebar">
           <div
             className={cn(
-              "flex items-center justify-between w-full gap-8 px-4 py-2 border border-yellow-500 rounded-md bg-yellow-50 from-purple-400/20 to-yellow-400/20 dark:bg-yellow-50/20 mb-4"
+              "flex items-center justify-between w-full gap-8 px-4 py-2 border border-yellow-500 rounded-md bg-yellow-50 from-purple-400/20 to-yellow-400/20 dark:bg-yellow-50/20 mb-4",
             )}
           >
             <div className="flex items-center gap-2 text-sm font-medium">

@@ -9,9 +9,8 @@ interface StepperItemProps {
 }
 
 export function StepperItem({ step, children, className }: StepperItemProps) {
-  const { isStepComplete, isStepActive, totalSteps } = useStepperContext();
+  const { isStepComplete, totalSteps } = useStepperContext();
   const completed = isStepComplete(step);
-  const active = isStepActive(step);
   const isLastStep = step === totalSteps - 1;
 
   return (

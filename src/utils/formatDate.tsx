@@ -2,7 +2,7 @@ import { format, isValid, parseISO } from "date-fns";
 
 export function formatDate(
   date?: string | null | Date,
-  formatString = "hh:mm:ss b dd/LL/yyyy O"
+  formatString = "hh:mm:ss b dd/LL/yyyy O",
 ) {
   try {
     let parsedDate: Date;

@@ -143,7 +143,7 @@ const DropzoneUploadPlayground = ({
             error,
           });
         },
-      }
+      },
     );
   };
 
@@ -203,7 +203,7 @@ const DropzoneUploadPlayground = ({
         {...dropzone.getRootProps()}
         className={cn(
           "flex justify-center relative flex-col items-center w-full h-32 border-dashed border-2 border-gray-200 rounded-lg hover:bg-accent hover:text-accent-foreground transition-all select-none cursor-pointer",
-          dropZoneClassName
+          dropZoneClassName,
         )}
       >
         <input {...dropzone.getInputProps()} />
@@ -256,7 +256,7 @@ const DropzoneUploadPlayground = ({
                     <div className="text-[0.85rem] font-medium leading-snug">
                       {truncate(
                         fileUploaded.title.split(".").slice(0, -1).join("."),
-                        30
+                        30,
                       )}
                     </div>
                     <div className="text-[0.7rem] text-gray-500 leading-tight">
@@ -282,7 +282,7 @@ const DropzoneUploadPlayground = ({
 export default DropzoneUploadPlayground;
 
 export const useUploadFileMutation = (
-  onProgressUpdate: (progress: number) => void
+  onProgressUpdate: (progress: number) => void,
 ) => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -296,7 +296,7 @@ export const useUploadFileMutation = (
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / (progressEvent.total || 1)
+            (progressEvent.loaded * 100) / (progressEvent.total || 1),
           );
           onProgressUpdate(percentCompleted);
           console.log("Upload progress:", percentCompleted);

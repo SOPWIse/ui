@@ -19,7 +19,7 @@ export function SOPCard({
     <div
       className="relative w-full max-w-xs group/card"
       onClick={() => {
-        navigate(`/sop-content/details/${sop.id}`);
+        navigate(`/view/${sop.id}`);
       }}
       ref={innerRef}
     >

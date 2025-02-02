@@ -7,7 +7,7 @@ import { ScrollToTop } from "./utils/ScrollToTop.ts";
 import { ThemeProvider } from "./context/ThemeProvider.tsx";
 import App from "./App.tsx";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-react";
-import { TailwindScreenSize } from "./components/devtools/tailwind-screen-size.tsx";
+// import { TailwindScreenSize } from "./components/devtools/tailwind-screen-size.tsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -48,7 +48,7 @@ createRoot(document.getElementById("root")!).render(
         <ThemeProvider>
           <RootLayout>
             <App />
-            <TailwindScreenSize />
+            {/* <TailwindScreenSize /> */}
           </RootLayout>
         </ThemeProvider>
       </BrowserRouter>

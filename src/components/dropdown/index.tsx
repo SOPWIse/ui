@@ -46,7 +46,7 @@ export const Dropdown = ({
         <Label
           className={cn(
             "block leading-9",
-            required && "after:text-red-400 after:content-['*']"
+            required && "after:text-red-400 after:content-['*']",
           )}
         >
           {label}
@@ -67,7 +67,7 @@ export const Dropdown = ({
           "min-w-[100px]",
           error && "ring-1 ring-red-400",
           className,
-          disabled && "cursor-not-allowed opacity-50"
+          disabled && "cursor-not-allowed opacity-50",
         )}
       >
         <SelectValue placeholder={placeholder} />

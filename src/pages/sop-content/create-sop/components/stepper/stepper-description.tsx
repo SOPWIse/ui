@@ -14,7 +14,7 @@ export function StepperDescription({
     <p
       className={cn(
         "text-sm text-muted-foreground text-center max-w-[200px]",
-        className
+        className,
       )}
     >
       {children}
