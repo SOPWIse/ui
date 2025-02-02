@@ -109,9 +109,7 @@ const Dropzone = ({
   ...props
 }: DropzoneProps) => {
   const fileUpload = useUploadFileMutation();
-  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>(
-    {},
-  );
+  const [, setUploadProgress] = useState<Record<string, number>>({});
 
   const handleFileUpload = async (file: File) => {
     try {
@@ -135,7 +133,7 @@ const Dropzone = ({
               return newProgress;
             });
           },
-        },
+        }
       );
     } catch (error) {
       console.error("Upload failed:", error);
@@ -194,7 +192,7 @@ const Dropzone = ({
         {...dropzone.getRootProps()}
         className={cn(
           "flex justify-center items-center w-full h-32 border-dashed border-2 border-gray-200 rounded-lg hover:bg-accent hover:text-accent-foreground transition-all select-none cursor-pointer",
-          dropZoneClassName,
+          dropZoneClassName
         )}
       >
         <input {...dropzone.getInputProps()} />
@@ -240,7 +238,7 @@ const Dropzone = ({
                     <div className="text-[0.85rem] font-medium leading-snug">
                       {truncate(
                         fileUploaded.name.split(".").slice(0, -1).join("."),
-                        30,
+                        30
                       )}
                     </div>
                     <div className="text-[0.7rem] text-gray-500 leading-tight">
@@ -280,7 +278,7 @@ export const useUploadFileMutation = () => {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / (progressEvent.total || 1),
+            (progressEvent.loaded * 100) / (progressEvent.total || 1)
           );
           console.log("Upload progress:", percentCompleted);
         },

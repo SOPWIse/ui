@@ -1,21 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { SignedIn, SignOutButton, useAuth } from "@clerk/clerk-react";
 
-import { useTheme } from "@/context/ThemeProvider";
+// import { useTheme } from "@/context/ThemeProvider";
 import { ToggleTheme } from "../theme-toggler";
 import { useLogoutMutation } from "@/hooks/mutations";
 import { useUser } from "@clerk/clerk-react";
 import { Button } from "../button";
 import { MdOutlineNotifications } from "react-icons/md";
 
-const Logo = {
-  light: "",
-  dark: "",
-} as const;
+// const Logo = {
+//   light: "",
+//   dark: "",
+// } as const;
 
 const Navbar = () => {
-  const { theme, systemPreference } = useTheme();
-  const NavLogo = theme === "system" ? Logo[systemPreference] : Logo[theme];
+  // const { theme, systemPreference } = useTheme();
+  // const NavLogo = theme === "system" ? Logo[systemPreference] : Logo[theme];
   const navigate = useNavigate();
   const logout = useLogoutMutation();
   const ssoUserData = useUser();
