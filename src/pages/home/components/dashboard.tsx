@@ -11,6 +11,7 @@ import { debounce } from "lodash";
 import { ChemistrySVG } from "@/pages/sop-content/manage-sop/components/chemistry-svg";
 import { SOPCard } from "./sop-card";
 import EventSkeleton from "./card-skeleton";
+import FadeIn from "@/components/fade-in";
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -53,20 +54,22 @@ const Dashboard = () => {
           }}
           className="flex min-h-[200px] w-full flex-col items-center justify-center gap-10 bg-cover bg-center p-8 md:min-h-[400px]"
         >
-          <h1 className="flex items-center justify-center gap-4 text-4xl font-bold text-background dark:text-foreground md:text-6xl">
-            <ChemistrySVG />
-            SOPWise
-          </h1>
+          <FadeIn className="flex flex-col items-center justify-center w-full gap-4">
+            <h1 className="flex items-center justify-center gap-4 text-4xl font-bold text-background dark:text-foreground md:text-6xl">
+              <ChemistrySVG />
+              SOPWise
+            </h1>
 
-          <h3 className="text-2xl font-semibold text-background dark:text-foreground ">
-            A platform to manage your SOPs
-          </h3>
-          <Input
-            id="search"
-            placeholder="Search for a SOP..."
-            onChange={(e) => handleSearch(e.target.value)}
-            className="z-10 max-w-2xl px-8 py-6 text-xl font-bold rounded-3xl bg-background/80 text-muted-foreground placeholder:text-muted-foreground/60"
-          />
+            <h3 className="text-2xl font-semibold text-background dark:text-foreground ">
+              A platform to manage your SOPs
+            </h3>
+            <Input
+              id="search"
+              placeholder="Search for a SOP..."
+              onChange={(e) => handleSearch(e.target.value)}
+              className="z-10 max-w-2xl px-8 py-6 text-xl font-bold rounded-3xl bg-background/80 text-muted-foreground placeholder:text-muted-foreground/60"
+            />
+          </FadeIn>
         </div>
         <div className="relative z-0 grid grid-cols-3 gap-4 m-4 mt-8 place-items-center">
           {isPending &&

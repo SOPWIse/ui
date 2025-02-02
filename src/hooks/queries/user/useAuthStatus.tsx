@@ -27,7 +27,7 @@ const useAuthStatus = (): UseAuthReturn => {
           email: ssoUser.emailAddresses[0].emailAddress,
           name: ssoUser.fullName ?? ssoUser.firstName ?? "",
           password: ssoUser.id,
-          role: "ASSISTANT",
+          role: "ADMIN",
           provider:
             ssoUser.externalAccounts[0].verification?.strategy ??
             ssoUser.externalAccounts[0].provider,
@@ -45,7 +45,7 @@ const useAuthStatus = (): UseAuthReturn => {
             });
             console.log("ERROR LOGGING IN ==>", error);
           },
-        },
+        }
       );
     }
   }, [ssoUser?.id]);
