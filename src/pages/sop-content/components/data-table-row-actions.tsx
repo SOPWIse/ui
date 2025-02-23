@@ -67,27 +67,32 @@ export function DataTableRowActions<TData>({
           <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Edit
         </DropdownMenuItem>
-
-        <DropdownMenuItem
-          onClick={(e) => {
-            e.stopPropagation();
-            // @ts-ignore
-            handleManage(row.original?.id);
-          }}
-        >
-          <BookOpen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Manage SOP
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={(e) => {
-            e.stopPropagation();
-            // @ts-ignore
-            handleReview(row.original?.id);
-          }}
-        >
-          <ScanEye className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Review SOP
-        </DropdownMenuItem>
+        {/* @ts-ignore */}
+        {row.original?.status === "DRAFT" && (
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              // @ts-ignore
+              handleManage(row.original?.id);
+            }}
+          >
+            <BookOpen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            Manage SOP
+          </DropdownMenuItem>
+        )}
+        {/* @ts-ignore */}
+        {row.original?.status !== "DRAFT" && (
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              // @ts-ignore
+              handleReview(row.original?.id);
+            }}
+          >
+            <ScanEye className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            Review SOP
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem>
           <Star className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Favorite

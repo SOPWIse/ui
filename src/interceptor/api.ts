@@ -26,28 +26,51 @@ api.interceptors.request.use((config) => {
 const MAX_RETRIES = 1;
 
 // Add a response interceptor to handle 401 errors
+let retryCount = 0; // Keep retryCount outside the interceptor scope
+
 api.interceptors.response.use(
   (response) => {
+    retryCount = 0; // Reset retryCount on successful response
     return response;
   },
   async (error) => {
     if (error?.response?.status === 401) {
-      let retryCount = 0;
-      while (retryCount < MAX_RETRIES) {
-        try {
-          const response = await api.request(error.config);
-          return response;
-        } catch (retryError) {
-          retryCount++;
-          if (retryCount >= MAX_RETRIES) {
-            // If maximum retries reached, delete access token
-            localStorage.removeItem("access_token");
-            window.location.href = "/";
-            return Promise.reject(retryError);
+      const originalRequest = error.config;
+
+      if (!originalRequest._retry) {
+        // Check if it's already a retry
+        originalRequest._retry = true; // Set the retry flag
+        retryCount++; // Increment retry count
+
+        if (retryCount <= MAX_RETRIES) {
+          // Retry only if within limit
+          try {
+            const response = await api.request(originalRequest); // Retry the original request
+            retryCount = 0; // Reset retryCount on successful retry
+            return response;
+          } catch (retryError) {
+            // Retry failed
+            if (retryCount >= MAX_RETRIES) {
+              localStorage.removeItem("access_token");
+              window.location.href = "/";
+              return Promise.reject(retryError); // Reject after max retries
+            }
+            // If you want to handle intermediate retry errors differently, you can here
+            return Promise.reject(retryError); // Or just reject and stop retrying
           }
+        } else {
+          // Max retries reached
+          localStorage.removeItem("access_token");
+          window.location.href = "/";
+          return Promise.reject(error); // Reject after max retries
         }
+      } else {
+        // Already a retry, don't retry again to prevent loops
+        localStorage.removeItem("access_token");
+        window.location.href = "/";
+        return Promise.reject(error); // Reject and redirect
       }
     }
-    return Promise.reject(error);
-  },
+    return Promise.reject(error); // For errors other than 401
+  }
 );

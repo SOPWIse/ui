@@ -26,12 +26,14 @@ import {
 } from "@/components/ui";
 import { handleToast } from "@/utils/handleToast";
 import useGetAllSOPsQuery from "@/hooks/queries/sops/useGetAllSOPsQuery";
+import { useNavigate } from "react-router-dom";
 
 export function SOPsTable() {
+  const navigate = useNavigate();
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
+    []
   );
 
   const [sorting, setSorting] = React.useState<SortingState>([
@@ -124,7 +126,7 @@ export function SOPsTable() {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -138,13 +140,16 @@ export function SOPsTable() {
                 <TableRow
                   className="cursor-pointer"
                   key={row.id}
+                  onClick={() => {
+                    navigate(`/sop-content/details/${row.original.id}`);
+                  }}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}

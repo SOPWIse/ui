@@ -1,3 +1,12 @@
+import {
+  Tranquiluxe,
+  Opulento,
+  Velustro,
+  Xenon,
+  Lumiflex,
+  Novatrix,
+} from "uvcanvas";
+
 export const Status = [
   {
     value: "DRAFT",
@@ -11,4 +20,13 @@ export const Status = [
     value: "LISTED",
     label: "LISTED",
   },
+];
+
+export const heroBG = [
+  Lumiflex,
+  Novatrix,
+  Velustro,
+  Tranquiluxe,
+  Opulento,
+  Xenon,
 ];

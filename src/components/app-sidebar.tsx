@@ -161,21 +161,21 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { open } = useSidebar();
+  const { open, setOpen } = useSidebar();
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} onClick={() => setOpen(!open)}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       {open && (
-        <div className="relative flex items-center justify-center max-w-screen-md gap-2 px-2">
+        <div
+          className="relative flex items-center justify-center max-w-screen-md gap-2 px-2"
+          onClick={(e) => e.stopPropagation()}
+        >
           <FormInput
             className="max-w-screen-md min-h-fit"
             placeholder="Search SOPs..."
           />
-          {/* <kbd className="absolute pointer-events-none right-[0.3rem] top-[0.6rem] flex h-5 select-none items-center gap-1 rounded border border-[--border] bg-[--muted] px-1.5 font-mono text-[10px] font-medium opacity-100 [&amp;_span]:text-xs">
-          <span>⌘</span>K
-        </kbd> */}
           <Button variant={"outline"} className="max-w-sm h-9">
             <SearchIcon className="w-4 h-auto fill-background" />
           </Button>
@@ -183,7 +183,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       )}
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

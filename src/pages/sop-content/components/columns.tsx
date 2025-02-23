@@ -76,8 +76,9 @@ export const columns: ColumnDef<SOP>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-semibold">
-            {row.original.category}
+          <span className="max-w-[500px] truncate font-semibold bg-accent-foreground/10 text-accent-foreground rounded-md px-2 py-1">
+            {/* @ts-ignore */}
+            {row?.original?.isListed ? "Approved" : "Pending"}
           </span>
         </div>
       );

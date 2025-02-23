@@ -15,4 +15,5 @@ export const sopsQueryKeys = {
       { limit, page, sortBy, sortOrder, filter, search, searchFields },
     ] as const,
   sopById: (id?: string) => ["sops", id] as const,
+  flowData: (id?: string) => ["sops", id],
 };

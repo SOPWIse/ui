@@ -14,6 +14,14 @@ function insertTitleSection(editor: any) {
   `);
 }
 
+function insertProcedure(editor: any) {
+  editor.insertContent(`
+      <ul style="list-style-type: disc" data-id="procedure-ul">
+        <li data-id="procedure-li">Your Procedure Here</li>
+      </ul>
+  `);
+}
+
 function insertInputField(editor: any) {
   editor.insertContent(`
     <input type="text" data-id="input-field" placeholder="Enter text here" 
@@ -37,13 +45,13 @@ function insertRadioButton(editor: any) {
   `);
 }
 
-function insertTextArea(editor: any) {
-  editor.insertContent(`
-    <textarea rows="4" cols="50" data-id="text-area" 
-      placeholder="Enter your text here" style="width: 20%; padding: 8px; margin: 8px 0;">
-    </textarea>
-  `);
-}
+// function insertTextArea(editor: any) {
+//   editor.insertContent(`
+//     <textarea rows="4" cols="50" data-id="text-area"
+//       placeholder="Enter your text here" style="width: 20%; padding: 8px; margin: 8px 0;">
+//     </textarea>
+//   `);
+// }
 
 interface Props<T extends FieldValues> {
   fieldPath: FieldPath<T>;
@@ -62,7 +70,6 @@ const RichTextEditor = <T extends FieldValues>({
   const value = watch(fieldPath);
 
   const handleChange = (value: string) => {
-    console.log(value);
     // FIX THIS
     setValue(fieldPath, value as any);
   };
@@ -110,12 +117,6 @@ const RichTextEditor = <T extends FieldValues>({
               disabled={viewOnly}
               apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
               onEditorChange={(value) => handleChange(value)}
-              // onSelectionChange={(event) => console.log(JSON.stringify(event, null,2))}
-              // onNodeChange={(event) => {
-              //   const {getSel, getSelectedBlocks, getStart, getEnd, getContent} = event?.target?.selection
-
-              //   console.log(getContent?.())
-              // }}
               value={
                 value ?? "<p>This is the initial content of the editor.</p>"
               }
@@ -158,7 +159,7 @@ const RichTextEditor = <T extends FieldValues>({
                   "bold italic | blocks | quicklink blockquote | customItem",
                 // quickbars_selection_toolbar: "bold italic underline customItem",
                 toolbar:
-                  "undo redo | bold italic underline strikethrough | bullist numlist | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl | insertTitleButton | insertFormComponents",
+                  "undo redo | bold italic underline strikethrough | bullist numlist insertFormComponents | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl | insertTitleButton | copyContent",
                 content_style:
                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 setup: (editor) => {
@@ -167,11 +168,6 @@ const RichTextEditor = <T extends FieldValues>({
                     tooltip: "Add comment",
                     onAction: () => {
                       const selectedText = editor.selection.getContent();
-                      console.log(
-                        editor?.selection?.getNode()?.nodeName,
-                        "<><><><><>"
-                      );
-                      console.log("Selected text", selectedText);
                       if (selectedText) {
                         // Apply custom logic here, e.g., wrap text in a custom span
                         editor.selection.setContent(
@@ -183,8 +179,15 @@ const RichTextEditor = <T extends FieldValues>({
                     },
                   });
 
+                  editor.ui.registry.addButton("copyContent", {
+                    icon: "copy",
+                    onAction: () => {
+                      navigator.clipboard.writeText(editor.getContent());
+                    },
+                  });
+
                   editor.ui.registry.addMenuButton("insertFormComponents", {
-                    text: "Components",
+                    text: "Add",
                     icon: "addtag",
                     fetch: function (callback) {
                       const items = [
@@ -193,6 +196,13 @@ const RichTextEditor = <T extends FieldValues>({
                           text: "Insert Title",
                           onAction: function () {
                             insertTitleSection(editor);
+                          },
+                        },
+                        {
+                          type: "menuitem",
+                          text: "Procedure",
+                          onAction: function () {
+                            insertProcedure(editor);
                           },
                         },
                         {
@@ -214,13 +224,6 @@ const RichTextEditor = <T extends FieldValues>({
                           text: "Radio Button",
                           onAction: function () {
                             insertRadioButton(editor);
-                          },
-                        },
-                        {
-                          type: "menuitem",
-                          text: "Text Area",
-                          onAction: function () {
-                            insertTextArea(editor);
                           },
                         },
                       ];

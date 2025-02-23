@@ -41,7 +41,7 @@ const CommentReview = () => {
   function handleCommentChange(
     index: number,
     value: string,
-    replyIndex?: number,
+    replyIndex?: number
   ) {
     if (replyIndex !== undefined) {
       const pre = comments?.at(index) as CommentItem;
@@ -121,7 +121,7 @@ const CommentReview = () => {
     const doc = parser.parseFromString(content, "text/html");
 
     const commentSpan = doc.querySelector(
-      `span[data-comment-id="${pre.uniqueId}"]`,
+      `span[data-comment-id="${pre.uniqueId}"]`
     );
 
     if (commentSpan) {
@@ -156,7 +156,7 @@ const CommentReview = () => {
   function addComment(
     selectedText: string,
     htmlString: string,
-    uniqueId: string,
+    uniqueId: string
   ) {
     prepend({
       comment: "",
@@ -216,14 +216,13 @@ const CommentReview = () => {
         <div
           className={cn(
             `bg-sidebar transition-all duration-200`,
-            isComment ? "col-span-8" : "col-span-full",
+            isComment ? "col-span-8" : "col-span-full"
           )}
         >
           <CommentEditor
             fieldPath="content"
             sortingControl={<div></div>}
             viewOnly={false}
-            // resolvedComment={resolved}
             onComment={addComment}
           />
         </div>

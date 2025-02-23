@@ -84,3 +84,7 @@
 .animate-scale-check {
   animation: scale-check 0.3s ease-out forwards;
 }
+
+#comment {
+  background-color: yellow !important; /* !important needed if your app css is overriding it */
+}

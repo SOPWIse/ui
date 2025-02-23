@@ -3,6 +3,7 @@ import { Button } from "@/components/button";
 import FormContainer from "@/components/form-container";
 import RichTextView from "@/components/rich-text-view";
 import { SOP } from "@/schemas/sop-content";
+import { handleToast } from "@/utils/handleToast";
 import { useFormContext } from "react-hook-form";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { MdHelpOutline } from "react-icons/md";
@@ -10,16 +11,15 @@ import { useNavigate } from "react-router-dom";
 
 const Review = () => {
   const navigate = useNavigate();
-  const {
-    handleSubmit,
-    watch,
-    // register,
-    // formState: { errors, isDirty },
-  } = useFormContext<SOP>();
+  const { handleSubmit, watch } = useFormContext<SOP>();
 
   const onSubmit = () => {
-    // navigate("/sop-content/review");
-    alert("Submitted");
+    navigate("/sop-content");
+    handleToast({
+      message:
+        "SOP has been created successfully, navigating to SOPs Dashboard",
+      type: "success",
+    });
   };
 
   return (
@@ -27,7 +27,6 @@ const Review = () => {
       id="sop-content-form"
       title="Review"
       className="bg-sidebar"
-      // TODO: HANDLE IT LATER
       onSubmit={handleSubmit(onSubmit)}
       onKeyDown={(e) => {
         e.key === "Enter" && e.preventDefault();

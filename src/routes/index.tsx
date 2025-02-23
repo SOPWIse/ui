@@ -37,7 +37,7 @@ const masterRoutes = [
     permission: "*",
   },
   {
-    path: "/view/*",
+    path: "/view/:id",
     element: <ViewingModule />,
     permission: "*",
   },
@@ -62,7 +62,7 @@ export function PrivateRoutes() {
           <Route path="*" element={<Navigate to={"/home"} replace />} />
         </Route>
       </Routes>
-      <AppSidebar />
+      <AppSidebar variant="sidebar" />
     </SidebarProvider>
   );
 }

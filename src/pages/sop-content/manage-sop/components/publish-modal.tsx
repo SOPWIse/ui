@@ -73,7 +73,7 @@ const PublishModal = () => {
               handlePublish();
             }}
           >
-            Publish
+            Send for Review
           </Button>
         </div>
       }
