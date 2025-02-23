@@ -1,4 +1,31 @@
-# React + TypeScript + Vite
+# SOPwise
+
+To run this project, make sure you have `node` and `npm` installed on the system.
+
+We further use `pnpm` to run our projects, which can be installed as below or refer this https://pnpm.io/installation
+
+```bash
+# PNPM INSTALLATION
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+```
+
+After you have `pnpm` installed, make sure you have the correct env variables.
+
+Now to install the dependencies, run the following command
+
+```bash
+pnpm run start:dev
+```
+
+To run the project on dev:
+
+```bash
+pnpm run start:dev --open
+```
+
+This should be good to go! :)
+
+---
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
