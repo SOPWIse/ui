@@ -14,7 +14,7 @@ After you have `pnpm` installed, make sure you have the correct env variables.
 Now to install the dependencies, run the following command
 
 ```bash
-pnpm run start:dev
+pnpm i
 ```
 
 To run the project on dev:
